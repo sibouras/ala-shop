@@ -15,6 +15,8 @@
   <!-- custom css -->
   <link rel="stylesheet" href="<?= $css ?>/admin.css" />
   <link rel="stylesheet" href="<?= $css ?>/backend.css" />
+  <!-- datatables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap5.css">
 </head>
 
 <body>

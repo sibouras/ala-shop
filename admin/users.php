@@ -39,7 +39,7 @@ if (isset($_SESSION['username'])) {
             <div class="card-body">
               <a href='users.php?do=add' class="btn btn-primary mb-4"><i class="fa fa-plus me-2"></i> Add New User</a>
               <div class="table-responsive">
-                <table class="table table-hover text-nowrap">
+                <table id="datatableId" class="table table-hover text-nowrap">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>

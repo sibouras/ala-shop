@@ -8,8 +8,12 @@ if (isset($_SESSION['username'])) {
   $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
   if ($do == 'manage') {
     // Manage Users page
+    $query = '';
+    if (isset($_GET['page']) && $_GET['page'] == 'pending') {
+      $query = 'AND regStatus = 0';
+    }
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE groupID != 1");
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE groupID != 1 $query");
     $stmt->execute();
     $rows = $stmt->fetchAll();
 ?>
@@ -60,10 +64,16 @@ if (isset($_SESSION['username'])) {
                         <td><?= $row['date']; ?></td>
                         <td>
                           <a href="users.php?do=edit&userid=<?= $row['userID'] ?>" class="me-2 btn btn-sm px-2">
-                            <i class="far fa-edit"></i></a>
-                          <a href="includes/processUsers.php?delete=<?= $row['userID'] ?>" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm px-2">
+                            <i class="far fa-edit"></i>
+                          </a>
+                          <a href="includes/processUsers.php?delete=<?= $row['userID'] ?>" onclick="return confirm('Are you sure?')" class="me-2 btn btn-danger btn-sm px-2">
                             <i class="fas fa-trash-alt"></i>
                           </a>
+                          <?php if ($row['regStatus'] == 0) : ?>
+                            <a href="includes/processUsers.php?activate=<?= $row['userID'] ?>" onclick="return confirm('Are you sure?')" class="btn btn-info btn-sm px-2">
+                              <i class="fas fa-check"></i>
+                            </a>
+                          <?php endif; ?>
                         </td>
                       </tr>
                     <?php endforeach; ?>

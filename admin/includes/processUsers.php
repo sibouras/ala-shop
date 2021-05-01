@@ -9,7 +9,7 @@ $email = '';
 $password = '';
 $hashedPass = '';
 
-if (isset($_POST['save']) || isset($_POST['add']) || isset($_GET['delete'])) {
+if (isset($_POST['save']) || isset($_POST['add']) || isset($_GET['delete']) || isset($_GET['activate'])) {
   include "../connect.php";
   include "functions/functions.php";
 }
@@ -92,7 +92,7 @@ if (isset($_POST['add'])) {
     exit();
   } else {
     // insert to database
-    $stmt = $pdo->prepare("INSERT INTO users(userName, password, email, fullName, date) VALUES (?,?,?,?,now())");
+    $stmt = $pdo->prepare("INSERT INTO users(userName, password, email, fullName, regStatus, date) VALUES (?,?,?,?,1,now())");
     $stmt->execute([$username, $hashedPass, $email, $fullname]);
 
     session_start();
@@ -118,6 +118,25 @@ if (isset($_GET['delete'])) {
     header('Location: ../users.php');
     exit();
   } else {
-    echo "no row";
+    echo "This id does not exist";
+  }
+}
+
+// activate users
+if (isset($_GET['activate'])) {
+  $userid = $_GET['activate'];
+  // Check if id exists in database
+
+  if (checkItem("userID", "users", $userid)) {
+    $stmt = $pdo->prepare("UPDATE users SET regStatus = 1 WHERE userID = ?");
+    $stmt->execute([$userid]);
+
+    session_start();
+    $_SESSION['message'] = "User has been Activated successfully";
+    $_SESSION['msgType'] = "info";
+    header('Location: ../users.php');
+    exit();
+  } else {
+    echo "This id does not exist";
   }
 }

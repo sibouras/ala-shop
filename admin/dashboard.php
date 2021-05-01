@@ -17,11 +17,13 @@ if (isset($_SESSION['username'])) {
               <div class="card-body">
                 <div class="d-flex justify-content-between px-md-1">
                   <div>
-                    <h3 class="text-success">156</h3>
-                    <p class="mb-0">New Users</p>
+                    <h3 class="text-success"><?php echo checkItem('regStatus', 'users', '0'); ?></h3>
+                    <p class="mb-0">Pending Users</p>
                   </div>
                   <div class="align-self-center">
-                    <i class="far fa-user text-success fa-3x"></i>
+                    <a href="users.php?do=manage&page=pending">
+                      <i class="far fa-user text-success fa-3x"></i>
+                    </a>
                   </div>
                 </div>
               </div>

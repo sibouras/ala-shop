@@ -5,6 +5,8 @@ if (isset($_SESSION['username'])) {
   $sidebar = "include sidebar in this page";
   $pageTitle = 'dashboard';
   include 'init.php';
+  $limit = 5; // number of latest users
+  $latestUsers = getLatest('*', 'users', "userID", $limit); // latest users array
 ?>
 
   <main style="margin-top: 58px">
@@ -174,21 +176,22 @@ if (isset($_SESSION['username'])) {
             <div class="card">
               <div class="card-header">
                 <i class="fa fa-users text-success me-1"></i>
-                Latest Users
+                Latest <?= $limit; ?> Users
               </div>
               <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A list item
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A second list item
-                  <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A third list item
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
+                <?php foreach ($latestUsers as $user) : ?>
+                  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <?= $user['userName']; ?>
+                    <span>
+                      <?php if ($user['regStatus'] == 0) : ?>
+                        <a href="includes/processUsers.php?activate=<?= $user['userID']; ?>" class="btn btn-info btn-sm px-2 me-2">
+                          <i class="fas fa-check"></i> Activate
+                        </a>
+                      <?php endif; ?>
+                      <a href="users.php?do=edit&userid=<?= $user['userID']; ?>" class="me-0 btn btn-sm px-2"><i class="fa fa-edit"></i> Edit</a>
+                    </span>
+                  </li>
+                <?php endforeach; ?>
               </ul>
             </div>
           </div>

@@ -63,14 +63,14 @@ if (isset($_SESSION['username'])) {
                         <td><?= $row['fullName']; ?></td>
                         <td><?= $row['date']; ?></td>
                         <td>
-                          <a href="users.php?do=edit&userid=<?= $row['userID'] ?>" class="me-2 btn btn-sm px-2">
+                          <a href="users.php?do=edit&userid=<?= $row['userID']; ?>" class="me-2 btn btn-sm px-2">
                             <i class="far fa-edit"></i>
                           </a>
-                          <a href="includes/processUsers.php?delete=<?= $row['userID'] ?>" onclick="return confirm('Are you sure?')" class="me-2 btn btn-danger btn-sm px-2">
+                          <a href="includes/processUsers.php?delete=<?= $row['userID']; ?>" onclick="return confirm('Are you sure?')" class="me-2 btn btn-danger btn-sm px-2">
                             <i class="fas fa-trash-alt"></i>
                           </a>
                           <?php if ($row['regStatus'] == 0) : ?>
-                            <a href="includes/processUsers.php?activate=<?= $row['userID'] ?>" onclick="return confirm('Are you sure?')" class="btn btn-info btn-sm px-2">
+                            <a href="includes/processUsers.php?activate=<?= $row['userID']; ?>" class="btn btn-info btn-sm px-2">
                               <i class="fas fa-check"></i>
                             </a>
                           <?php endif; ?>

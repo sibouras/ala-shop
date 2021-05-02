@@ -42,7 +42,7 @@
       </li>
       <!-- Icon -->
       <li class="nav-item me-3 me-lg-0">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="https://github.com/sibouras/ala-shop" target="_blank">
           <i class="fab fa-github"></i>
         </a>
       </li>

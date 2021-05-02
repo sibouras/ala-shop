@@ -40,8 +40,16 @@ function countItems($item, $table)
   global $pdo;
   $stmt = $pdo->prepare("SELECT COUNT($item) FROM $table");
   $stmt->execute();
-
   return $stmt->fetchColumn();
+}
+
+// Get latest records
+function getLatest($select, $table, $order, $limit = 5)
+{
+  global $pdo;
+  $stmt = $pdo->prepare("SELECT $select FROM $table ORDER BY $order DESC LIMIT $limit");
+  $stmt->execute();
+  return $stmt->fetchAll();
 }
 
 function margin($value)

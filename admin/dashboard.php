@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION['username'])) {
   // $noNavbar = 'no navbar in this page';
   $sidebar = "include sidebar in this page";
-  $pageTitle = 'dashboard';
+  $pageTitle = 'Dashboard';
   include 'init.php';
   $limit = 5; // number of latest users
   $latestUsers = getLatest('*', 'users', "userID", $limit); // latest users array

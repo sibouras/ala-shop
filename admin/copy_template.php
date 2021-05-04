@@ -3,13 +3,13 @@ session_start();
 if (isset($_SESSION['username'])) {
   // $noNavbar = 'no navbar in this page';
   $sidebar = "include sidebar in this page";
-  $pageTitle = 'Items';
+  $pageTitle = 'Template';
   include 'init.php';
 ?>
 
   <main style="margin-top: 58px">
     <div class="container pt-4">
-      <h3>Items Page</h3>
+      <h3>Welcome to add page</h3>
     </div>
   </main>
 

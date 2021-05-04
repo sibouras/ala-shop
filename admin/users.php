@@ -88,10 +88,8 @@ if (isset($_SESSION['username'])) {
       </div>
     </main>
 
-  <?php
-  } else if ($do == 'edit' || $do == 'add') { ?>
-    <!-- Edit page -->
-    <?php
+  <?php } else if ($do == 'edit' || $do == 'add') {
+    // Edit page
 
     include 'includes/processUsers.php';
     if (isset($_GET['errors'])) {
@@ -111,7 +109,7 @@ if (isset($_SESSION['username'])) {
       $password = $row['password'];
     }
 
-    ?>
+  ?>
     <!--Main layout-->
     <main style="margin-top: 58px">
       <div class="container pt-4">
@@ -179,8 +177,7 @@ if (isset($_SESSION['username'])) {
       </div>
     </main>
 
-<?php
-  }
+<?php }
   include "$tpl/footer.php";
 } else {
   header('Location: index.php?unauthorized_user');

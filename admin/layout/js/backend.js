@@ -143,7 +143,9 @@ $(document).ready(function () {
     $('#price').val(data[2]);
     $('#country').val(data[3]);
 
-    $('#select select').val(data[5]);
+    $('#select-status select').val(data[5]);
+    $('#select-category select').val(data[6]);
+    $('#select-user select').val(data[7]);
   });
 
   $('.deleteItemBtn').on('click', function () {

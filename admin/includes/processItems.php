@@ -14,9 +14,11 @@ if (isset($_POST['add'])) {
   $price = $_POST['price'];
   $country = $_POST['country'];
   $status = $_POST['status'];
+  $user = $_POST['user'];
+  $category = $_POST['category'];
 
-  $stmt = $pdo->prepare("INSERT INTO items(name, description, price, country_made, status, add_date) VALUES (?,?,?,?,?,now())");
-  $stmt->execute([$name, $description, $price, $country, $status]);
+  $stmt = $pdo->prepare("INSERT INTO items(name, description, price, country_made, status, user_id, category_id, add_date) VALUES (?,?,?,?,?,?,?,now())");
+  $stmt->execute([$name, $description, $price, $country, $status, $user, $category]);
 
   $_SESSION['message'] = "Successfully Inserted to the database";
   $_SESSION['msgType'] = "success";
@@ -33,28 +35,21 @@ if (isset($_POST['update'])) {
   $price = $_POST['price'];
   $country = $_POST['country'];
   $status = $_POST['status'];
+  $user = $_POST['user'];
+  $category = $_POST['category'];
 
-  // Check if category exists in db
-  if ($name != $hiddenName && checkItem("name", "items", $name)) {
-    $_SESSION['message'] = "Name already exists";
-    $_SESSION['msgType'] = "danger";
-    header('Location: ../items.php');
-    exit();
-  } else {
-    $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ? WHERE id = ?");
-    $stmt->execute([$name, $description, $price, $country, $status, $id]);
+  $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ?, user_id = ?, category_id = ? WHERE id = ?");
+  $stmt->execute([$name, $description, $price, $country, $status, $user, $category, $id]);
 
-    $_SESSION['message'] = "Item has been Updated successfully";
-    $_SESSION['msgType'] = "warning";
-    header('Location: ../items.php');
-    exit();
-  }
+  $_SESSION['message'] = "Item has been Updated successfully";
+  $_SESSION['msgType'] = "warning";
+  header('Location: ../items.php');
+  exit();
 }
 
 // Delete categories
 if (isset($_POST['delete'])) {
   $id = $_POST['deleteID'];
-  echo $id;
 
   // Check if id exists in database
   if (checkItem("id", "items", $id)) {

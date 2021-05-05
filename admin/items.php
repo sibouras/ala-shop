@@ -6,9 +6,25 @@ if (isset($_SESSION['username'])) {
   $pageTitle = 'Items';
   include 'init.php';
 
-  $stmt = $pdo->prepare("SELECT * FROM items");
+  $stmt = $pdo->prepare(
+    "SELECT items.*,
+      categories.name AS category_name,
+      users.username AS user_name
+    FROM items
+      INNER JOIN categories ON categories.id = items.category_id
+      INNER JOIN users ON users.userID = items.user_id;
+    "
+  );
   $stmt->execute();
   $rows = $stmt->fetchAll();
+
+  $users_stmt = $pdo->prepare("SELECT userID, userName FROM users");
+  $users_stmt->execute();
+  $users = $users_stmt->fetchAll();
+
+  $categories_stmt = $pdo->prepare("SELECT id, name FROM categories");
+  $categories_stmt->execute();
+  $categories = $categories_stmt->fetchAll();
 ?>
 
   <!-- Add new item modal -->
@@ -68,6 +84,35 @@ if (isset($_SESSION['username'])) {
               </div>
             </div>
 
+            <!-- User input -->
+            <div class="row mb-3">
+              <label for="auser" class="col-sm-2 col-form-label">User</label>
+              <div class="col-sm-10 ps-4">
+                <select name="user" class="form-select" id="auser" required>
+                  <option value="">Choose User</option>
+                  <?php
+                  foreach ($users as $user) {
+                    echo "<option value='$user[userID]'>$user[userName]</option>";
+                  }
+                  ?>
+                </select>
+              </div>
+            </div>
+
+            <!-- Category input -->
+            <div class="row mb-3">
+              <label for="acategory" class="col-sm-2 col-form-label">Category</label>
+              <div class="col-sm-10 ps-4">
+                <select name="category" class="form-select" id="acategory" required>
+                  <option value="">Choose Category</option>
+                  <?php
+                  foreach ($categories as $category) {
+                    echo "<option value='$category[id]'>$category[name]</option>";
+                  }
+                  ?>
+                </select>
+              </div>
+            </div>
 
           </div>
 
@@ -131,7 +176,7 @@ if (isset($_SESSION['username'])) {
             <div class="row mb-3">
               <label for="status" class="col-sm-2 col-form-label">Status</label>
               <div class="col-sm-10 ps-4">
-                <div id="select">
+                <div id="select-status">
                   <select name="status" class="form-select" id="status" required>
                     <option value="">Choose Status</option>
                     <option value="1">New</option>
@@ -143,6 +188,39 @@ if (isset($_SESSION['username'])) {
               </div>
             </div>
 
+            <!-- User input -->
+            <div class="row mb-3">
+              <label for="user" class="col-sm-2 col-form-label">User</label>
+              <div class="col-sm-10 ps-4">
+                <div id="select-user">
+                  <select name="user" class="form-select" id="user" required>
+                    <option value="">Choose User</option>
+                    <?php
+                    foreach ($users as $user) {
+                      echo "<option value='$user[userID]'>$user[userName]</option>";
+                    }
+                    ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Category input -->
+            <div class="row mb-3">
+              <label for="category" class="col-sm-2 col-form-label">Category</label>
+              <div class="col-sm-10 ps-4">
+                <div id="select-category">
+                  <select name="category" class="form-select" id="category" required>
+                    <option value="">Choose Category</option>
+                    <?php
+                    foreach ($categories as $category) {
+                      echo "<option value='$category[id]'>$category[name]</option>";
+                    }
+                    ?>
+                  </select>
+                </div>
+              </div>
+            </div>
 
           </div>
 
@@ -216,6 +294,10 @@ if (isset($_SESSION['username'])) {
                     <th scope="col">Country</th>
                     <th scope="col">Add Date</th>
                     <th scope="col" style="display: none;">Status</th>
+                    <th scope="col" style="display: none;">Category ID</th>
+                    <th scope="col" style="display: none;">User ID</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">User</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -229,8 +311,12 @@ if (isset($_SESSION['username'])) {
                       <td><?= $row['country_made'] ?></td>
                       <td><?= $row['add_date']; ?></td>
                       <td style="display:none"><?= $row['status']; ?></td>
-                      <td style="width: 5rem;">
-                        <button type="button" class="me-2 btn btn-sm px-2 editItemBtn">
+                      <td style="display: none;"><?= $row['category_id']; ?></td>
+                      <td style="display: none;"><?= $row['user_id']; ?></td>
+                      <td><?= $row['category_name']; ?></td>
+                      <td><?= $row['user_name']; ?></td>
+                      <td>
+                        <button type=" button" class="me-2 btn btn-sm px-2 editItemBtn">
                           <i class="far fa-edit"></i>
                         </button>
                         <button type="button" class="me-2 btn btn-danger btn-sm px-2 deleteItemBtn" data-mdb-toggle="modal" data-mdb-target="#deleteItemModal">

@@ -36,6 +36,7 @@ $(document).ready(function () {
   });
 });
 
+// Edit-Delete category modal
 $(document).ready(function () {
   $('.editBtn').on('click', function () {
     $('#editModal').modal('show');
@@ -90,9 +91,7 @@ $(document).ready(function () {
       $('#ads-no').prop('checked', false);
     }
   });
-});
 
-$(document).ready(function () {
   $('.deleteBtn').on('click', function () {
     $tr = $(this).closest('tr');
     const data = $tr
@@ -102,5 +101,54 @@ $(document).ready(function () {
       })
       .get();
     $('#deleteID').val(data[0]);
+  });
+});
+
+// items form validation
+// $(document).ready(function () {
+//   $('#add_form').on('submit', function (event) {
+//     event.preventDefault();
+//     if ($('#aname').val() == '') {
+//       alert('Name is required');
+//     } else if ($('#aprice').val() == '') {
+//       alert('Price is required');
+//     } else if ($('#acountry').val() == '') {
+//       alert('Country is required');
+//     } else {
+//       $(this).unbind('submit').submit();
+//     }
+//   });
+// });
+
+// Edit-Delete item modal
+$(document).ready(function () {
+  $('.editItemBtn').on('click', function () {
+    $('#editItemModal').modal('show');
+
+    $tr = $(this).closest('tr');
+    const data = $tr
+      .children('td')
+      .map(function () {
+        return $(this).text();
+      })
+      .get();
+
+    console.log(data);
+    const id = $tr.children('th').text();
+
+    $('#id').val(id);
+    $('#name').val(data[0]);
+    $('#hiddenName').val(data[0]);
+    $('#description').val(data[1]);
+    $('#price').val(data[2]);
+    $('#country').val(data[3]);
+
+    $('#select select').val(data[5]);
+  });
+
+  $('.deleteItemBtn').on('click', function () {
+    $tr = $(this).closest('tr');
+    const id = $tr.children('th').text();
+    $('#deleteID').val(id);
   });
 });

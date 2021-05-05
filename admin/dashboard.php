@@ -92,7 +92,9 @@ if (isset($_SESSION['username'])) {
                 <div class="d-flex justify-content-between p-md-1">
                   <div class="d-flex flex-row">
                     <div class="align-self-center">
-                      <i class="fas fa-shopping-cart text-info fa-3x me-4"></i>
+                      <a href="items.php">
+                        <i class="fas fa-shopping-cart text-info fa-3x me-4"></i>
+                      </a>
                     </div>
                     <div>
                       <h4>Total Items</h4>
@@ -100,7 +102,7 @@ if (isset($_SESSION['username'])) {
                     </div>
                   </div>
                   <div class="align-self-center">
-                    <h2 class="h1 mb-0">18,000</h2>
+                    <h2 class="h1 mb-0"><?= countItems("id", "items"); ?></h2>
                   </div>
                 </div>
               </div>

@@ -145,7 +145,6 @@ $(document).ready(function () {
 
     $('#select-status select').val(data[5]);
     $('#select-category select').val(data[6]);
-    $('#select-user select').val(data[7]);
   });
 
   $('.deleteItemBtn').on('click', function () {

@@ -14,11 +14,10 @@ if (isset($_POST['add'])) {
   $price = $_POST['price'];
   $country = $_POST['country'];
   $status = $_POST['status'];
-  $user = $_POST['user'];
   $category = $_POST['category'];
 
-  $stmt = $pdo->prepare("INSERT INTO items(name, description, price, country_made, status, user_id, category_id, add_date) VALUES (?,?,?,?,?,?,?,now())");
-  $stmt->execute([$name, $description, $price, $country, $status, $user, $category]);
+  $stmt = $pdo->prepare("INSERT INTO items(name, description, price, country_made, status, category_id, add_date) VALUES (?,?,?,?,?,?,now())");
+  $stmt->execute([$name, $description, $price, $country, $status, $category]);
 
   $_SESSION['message'] = "Successfully Inserted to the database";
   $_SESSION['msgType'] = "success";
@@ -35,11 +34,10 @@ if (isset($_POST['update'])) {
   $price = $_POST['price'];
   $country = $_POST['country'];
   $status = $_POST['status'];
-  $user = $_POST['user'];
   $category = $_POST['category'];
 
-  $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ?, user_id = ?, category_id = ? WHERE id = ?");
-  $stmt->execute([$name, $description, $price, $country, $status, $user, $category, $id]);
+  $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ?, category_id = ? WHERE id = ?");
+  $stmt->execute([$name, $description, $price, $country, $status, $category, $id]);
 
   $_SESSION['message'] = "Item has been Updated successfully";
   $_SESSION['msgType'] = "warning";

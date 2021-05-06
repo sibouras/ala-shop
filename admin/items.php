@@ -8,19 +8,13 @@ if (isset($_SESSION['username'])) {
 
   $stmt = $pdo->prepare(
     "SELECT items.*,
-      categories.name AS category_name,
-      users.username AS user_name
+      categories.name AS category_name
     FROM items
-      INNER JOIN categories ON categories.id = items.category_id
-      INNER JOIN users ON users.userID = items.user_id;
+      INNER JOIN categories ON categories.id = items.category_id;
     "
   );
   $stmt->execute();
   $rows = $stmt->fetchAll();
-
-  $users_stmt = $pdo->prepare("SELECT userID, userName FROM users");
-  $users_stmt->execute();
-  $users = $users_stmt->fetchAll();
 
   $categories_stmt = $pdo->prepare("SELECT id, name FROM categories");
   $categories_stmt->execute();
@@ -80,21 +74,6 @@ if (isset($_SESSION['username'])) {
                   <option value="2">Like New</option>
                   <option value="3">Used</option>
                   <option value="4">Old</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- User input -->
-            <div class="row mb-3">
-              <label for="auser" class="col-sm-2 col-form-label">User</label>
-              <div class="col-sm-10 ps-4">
-                <select name="user" class="form-select" id="auser" required>
-                  <option value="">Choose User</option>
-                  <?php
-                  foreach ($users as $user) {
-                    echo "<option value='$user[userID]'>$user[userName]</option>";
-                  }
-                  ?>
                 </select>
               </div>
             </div>
@@ -183,23 +162,6 @@ if (isset($_SESSION['username'])) {
                     <option value="2">Like New</option>
                     <option value="3">Used</option>
                     <option value="4">Old</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <!-- User input -->
-            <div class="row mb-3">
-              <label for="user" class="col-sm-2 col-form-label">User</label>
-              <div class="col-sm-10 ps-4">
-                <div id="select-user">
-                  <select name="user" class="form-select" id="user" required>
-                    <option value="">Choose User</option>
-                    <?php
-                    foreach ($users as $user) {
-                      echo "<option value='$user[userID]'>$user[userName]</option>";
-                    }
-                    ?>
                   </select>
                 </div>
               </div>
@@ -297,7 +259,6 @@ if (isset($_SESSION['username'])) {
                     <th scope="col" style="display: none;">Category ID</th>
                     <th scope="col" style="display: none;">User ID</th>
                     <th scope="col">Category</th>
-                    <th scope="col">User</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -312,9 +273,7 @@ if (isset($_SESSION['username'])) {
                       <td><?= $row['add_date']; ?></td>
                       <td style="display:none"><?= $row['status']; ?></td>
                       <td style="display: none;"><?= $row['category_id']; ?></td>
-                      <td style="display: none;"><?= $row['user_id']; ?></td>
                       <td><?= $row['category_name']; ?></td>
-                      <td><?= $row['user_name']; ?></td>
                       <td>
                         <button type=" button" class="me-2 btn btn-sm px-2 editItemBtn">
                           <i class="far fa-edit"></i>

@@ -7,3 +7,6 @@ admin/layout/src
 
 # test files
 admin/includes/insert.php
+
+# uploads file
+uploads/

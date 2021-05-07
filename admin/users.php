@@ -43,10 +43,11 @@ if (isset($_SESSION['username'])) {
             <div class="card-body">
               <a href='users.php?do=add' class="btn btn-primary mb-4"><i class="fa fa-plus me-2"></i> Add New User</a>
               <div class="table-responsive">
-                <table id="datatableId" class="table table-hover text-nowrap">
+                <table id="datatableId" class="table table-hover text-nowrap align-middle">
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
+                      <th>Image</th>
                       <th scope="col">Username</th>
                       <th scope="col">Email</th>
                       <th scope="col">Full Name</th>
@@ -58,11 +59,18 @@ if (isset($_SESSION['username'])) {
                     <?php foreach ($rows as $row) : ?>
                       <tr>
                         <th scope="row"><?= $row['userID']; ?></th>
+                        <td>
+                          <?php if (empty($row['image'])) : ?>
+                            <img class="tableImg" src="../uploads/profileImages/default.png" alt="">
+                          <?php else : ?>
+                            <img class="tableImg" src="../uploads/profileImages/<?= $row['image']; ?>" alt="">
+                          <?php endif; ?>
+                        </td>
                         <td><?= $row['userName']; ?></td>
                         <td><?= $row['email']; ?></td>
                         <td><?= $row['fullName']; ?></td>
                         <td><?= $row['date']; ?></td>
-                        <td>
+                        <td style="width: 5rem;">
                           <a href="users.php?do=edit&userid=<?= $row['userID']; ?>" class="me-2 btn btn-sm px-2">
                             <i class="far fa-edit"></i>
                           </a>
@@ -107,6 +115,7 @@ if (isset($_SESSION['username'])) {
       $fullname = $row['fullName'];
       $email = $row['email'];
       $password = $row['password'];
+      $image = $row['image'];
     }
 
   ?>
@@ -124,14 +133,14 @@ if (isset($_SESSION['username'])) {
                   <?php elseif ($do == 'add') : ?>
                     <h4 class="mb-5 text-center"><strong>Add New User</strong></h4>
                   <?php endif; ?>
-                  <form action="includes/processUsers.php" method="post" autocomplete="off">
+                  <form action="includes/processUsers.php" method="post" autocomplete="off" enctype="multipart/form-data">
                     <!-- Hidden ID -->
                     <input type="hidden" name="userid" value="<?= $userid ?>">
 
                     <!-- Username input -->
                     <div class="mb-3">
                       <label for="username" class="form-label">Username</label>
-                      <input type="text" name="username" value="<?= $username ?>" class="form-control" id="username" aria-describedby="emailHelp" required>
+                      <input type="text" name="username" value="<?= $username ?>" class="form-control" id="username" required>
                       <div class="form-text text-danger"><?= $formErrors['username']; ?></div>
                     </div>
 
@@ -150,7 +159,7 @@ if (isset($_SESSION['username'])) {
                     </div>
 
                     <!-- Password input -->
-                    <div class="mb-5">
+                    <div class="mb-3">
                       <label class="form-label" for="password">Password</label>
                       <?php if ($do == 'edit') : ?>
                         <input type="hidden" name="oldpassword" value="<?= $password; ?>" />
@@ -159,6 +168,26 @@ if (isset($_SESSION['username'])) {
                         <input type="password" name="password" id="password" class="form-control" required />
                         <div class="form-text text-danger"><?= $formErrors['password']; ?></div>
                       <?php endif; ?>
+                    </div>
+
+                    <!-- Image input -->
+                    <div class="mb-3">
+                      <label for="image" class="form-label">Image</label>
+                      <?php if ($do == 'edit') : ?>
+                        <input type="hidden" name="oldimage" value="<?= $image ?>">
+                        <input type="file" name="image" class="form-control" id="image">
+                        <div class="form-text text-danger"><?= $formErrors['image']; ?></div>
+                      <?php elseif ($do == 'add') : ?>
+                        <input type="file" name="image" class="form-control" id="image" required>
+                        <div class="form-text text-danger"><?= $formErrors['image']; ?></div>
+                      <?php endif; ?>
+                      <div>
+                        <?php if (empty($row['image'])) : ?>
+                          <img class="editImg" src="../uploads/profileImages/default.png" alt="">
+                        <?php else : ?>
+                          <img class="editImg" src="../uploads/profileImages/<?= $row['image']; ?>" alt="">
+                        <?php endif; ?>
+                      </div>
                     </div>
 
                     <!-- Submit button -->

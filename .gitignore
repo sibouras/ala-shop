@@ -3,7 +3,7 @@ shop.session.sql
 .vscode
 
 # mdb5 stuff
-admin/layout/src
+admin/layout/src/
 
 # test files
 admin/includes/insert.php

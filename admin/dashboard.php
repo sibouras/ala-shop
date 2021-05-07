@@ -5,8 +5,10 @@ if (isset($_SESSION['username'])) {
   $sidebar = "include sidebar in this page";
   $pageTitle = 'Dashboard';
   include 'init.php';
-  $limit = 5; // number of latest users
-  $latestUsers = getLatest('*', 'users', "userID", $limit); // latest users array
+  $numUsers = 5; // number of latest users
+  $latestUsers = getLatest('*', 'users', "userID", $numUsers); // latest users array
+  $numItems = 5;
+  $latestItems = getLatest('*', 'items', 'id', $numItems);
 ?>
 
   <main style="margin-top: 58px">
@@ -39,7 +41,7 @@ if (isset($_SESSION['username'])) {
                     <i class="fas fa-shopping-cart text-info fa-3x"></i>
                   </div>
                   <div class="text-end">
-                    <h3>278</h3>
+                    <h3><?php echo countNewItems('id', 'items', 'add_date'); ?></h3>
                     <p class="mb-0">New Items</p>
                   </div>
                 </div>
@@ -55,8 +57,8 @@ if (isset($_SESSION['username'])) {
                     <i class="far fa-comment-alt text-warning fa-3x"></i>
                   </div>
                   <div class="text-end">
-                    <h3>156</h3>
-                    <p class="mb-0">New Comments</p>
+                    <h3><?php echo countNewItems('id', 'reviews', 'date'); ?></h3>
+                    <p class="mb-0">New Reviews</p>
                   </div>
                 </div>
               </div>
@@ -117,12 +119,12 @@ if (isset($_SESSION['username'])) {
                       <i class="far fa-comment-alt text-warning fa-3x me-4"></i>
                     </div>
                     <div>
-                      <h4>Total Comments</h4>
-                      <p class="mb-0">Monthly Comments</p>
+                      <h4>Total Reviews</h4>
+                      <p class="mb-0">Monthly Reviews</p>
                     </div>
                   </div>
                   <div class="align-self-center">
-                    <h2 class="h1 mb-0">84,695</h2>
+                    <h2 class="h1 mb-0"><?= countItems("id", "reviews"); ?></h2>
                   </div>
                 </div>
               </div>
@@ -178,7 +180,7 @@ if (isset($_SESSION['username'])) {
             <div class="card">
               <div class="card-header">
                 <i class="fa fa-users text-success me-1"></i>
-                Latest <?= $limit; ?> Users
+                Latest <?= $numUsers; ?> Users
               </div>
               <ul class="list-group">
                 <?php foreach ($latestUsers as $user) : ?>
@@ -190,7 +192,7 @@ if (isset($_SESSION['username'])) {
                           <i class="fas fa-check"></i> Activate
                         </a>
                       <?php endif; ?>
-                      <a href="users.php?do=edit&userid=<?= $user['userID']; ?>" class="me-0 btn btn-sm px-2"><i class="fa fa-edit"></i> Edit</a>
+                      <span class="badge bg-primary rounded-pill"><?= $user['date']; ?></span>
                     </span>
                   </li>
                 <?php endforeach; ?>
@@ -201,21 +203,15 @@ if (isset($_SESSION['username'])) {
             <div class="card">
               <div class="card-header">
                 <i class="fas fa-shopping-cart fa-fw me-1 text-info"></i>
-                Latest Items
+                Latest <?= $numItems ?> Items
               </div>
               <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A list item
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A second list item
-                  <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  A third list item
-                  <span class="badge bg-primary rounded-pill">1</span>
-                </li>
+                <?php foreach ($latestItems as $item) : ?>
+                  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <?= $item['name']; ?>
+                    <span class="badge bg-primary rounded-pill"><?= $item['add_date']; ?></span>
+                  </li>
+                <?php endforeach; ?>
               </ul>
             </div>
           </div>

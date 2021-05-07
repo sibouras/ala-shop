@@ -153,3 +153,12 @@ $(document).ready(function () {
     $('#deleteID').val(id);
   });
 });
+
+// Delete review modal
+$(document).ready(function () {
+  $('.deleteReviewBtn').on('click', function () {
+    $tr = $(this).closest('tr');
+    const id = $tr.children('th').text();
+    $('#deleteID').val(id);
+  });
+});

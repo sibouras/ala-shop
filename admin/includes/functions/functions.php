@@ -43,6 +43,15 @@ function countItems($item, $table)
   return $stmt->fetchColumn();
 }
 
+// Count last 10 day's records
+function countNewItems($item, $table, $date)
+{
+  global $pdo;
+  $stmt = $pdo->prepare("SELECT COUNT($item) FROM $table WHERE $date >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)");
+  $stmt->execute();
+  return $stmt->fetchColumn();
+}
+
 // Get latest records
 function getLatest($select, $table, $order, $limit = 5)
 {

@@ -8,6 +8,7 @@
       <a href="categories.php" class="list-group-item list-group-item-action py-2 ripple <?php active('categories.php'); ?> "><i class="fas fa-list-alt fa-fw me-3"></i><span><?= lang('categories') ?></span></a>
       <a href="items.php" class="list-group-item list-group-item-action py-2 ripple <?php active('items.php'); ?> "><i class="fas fa-shopping-cart fa-fw me-3"></i><span><?= lang('items') ?></span></a>
       <a href="users.php" class="list-group-item list-group-item-action py-2 ripple <?php active('users.php') ?>"><i class="fas fa-users fa-fw me-3"></i><span><?= lang(('users')) ?></span></a>
+      <a href="reviews.php" class="list-group-item list-group-item-action py-2 ripple <?php active('reviews.php') ?>"><i class="fas fa-comments fa-fw me-3"></i><span><?= lang(('reviews')) ?></span></a>
       <a href="#" class="list-group-item list-group-item-action py-2 ripple">
         <i class="fas fa-chart-pie fa-fw me-3"></i><span><?= lang('statistics') ?></span>
       </a>

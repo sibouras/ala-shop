@@ -5,6 +5,7 @@ include "functions/functions.php";
 
 if (!($_SERVER['REQUEST_METHOD'] === 'POST')) {
   header("Location: ../items.php?error=unauthorized_user");
+  exit();
 }
 
 // Insert items

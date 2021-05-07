@@ -5,6 +5,7 @@ include "functions/functions.php";
 
 if (!($_SERVER['REQUEST_METHOD'] === 'POST')) {
   header("Location: ../categories.php?error=unauthorized_user");
+  exit();
 }
 
 // Insert categories

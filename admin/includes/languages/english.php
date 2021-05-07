@@ -10,6 +10,7 @@ function lang($phrase)
     'items' => 'Items',
     'users' => 'Users',
     'members' => 'Members',
+    'reviews' => 'Reviews',
     'statistics' => 'Statistics',
     'logs' => 'Logs',
   ];

@@ -70,7 +70,7 @@ if (isset($_SESSION['username'])) {
                         <td><?= $row['email']; ?></td>
                         <td><?= $row['fullName']; ?></td>
                         <td><?= $row['date']; ?></td>
-                        <td style="width: 5rem;">
+                        <td>
                           <a href="users.php?do=edit&userid=<?= $row['userID']; ?>" class="me-2 btn btn-sm px-2">
                             <i class="far fa-edit"></i>
                           </a>

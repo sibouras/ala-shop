@@ -19,12 +19,12 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Add New Category</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="includes/processCategories.php" method="post" autocomplete="off">
+        <form id="add-form" action="includes/processCategories.php" method="post" autocomplete="off">
           <div class="modal-body">
             <!-- Name input -->
             <div class="mb-4">
               <label for="aname" class="form-label">Name</label>
-              <input type="text" name="name" class="form-control" id="aname" aria-describedby="emailHelp" required>
+              <input type="text" name="name" class="form-control" id="aname" required>
             </div>
 
             <!-- Description input -->
@@ -43,12 +43,12 @@ if (isset($_SESSION['username'])) {
             <div class="mb-3">
               <label class="form-label label-width">Visible:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="visibility" value="0" id="avis-yes" checked />
+                <input class="form-check-input avisibility" type="radio" name="visibility" value="0" id="avis-yes" checked />
                 <label class="form-check-label" for="avis-yes">Yes</label>
               </div>
 
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="visibility" value="1" id="avis-no" />
+                <input class="form-check-input avisibility" type="radio" name="visibility" value="1" id="avis-no" />
                 <label class="form-check-label" for="avis-no">No</label>
               </div>
             </div>
@@ -57,12 +57,12 @@ if (isset($_SESSION['username'])) {
             <div class="mb-3">
               <label class="form-label label-width">Allow Comments:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="comments" value="0" id="acom-yes" checked />
+                <input class="form-check-input acomments" type="radio" name="comments" value="0" id="acom-yes" checked />
                 <label class="form-check-label" for="acom-yes">Yes</label>
               </div>
 
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="comments" value="1" id="acom-no" />
+                <input class="form-check-input acomments" type="radio" name="comments" value="1" id="acom-no" />
                 <label class="form-check-label" for="acom-no">No</label>
               </div>
             </div>
@@ -71,15 +71,20 @@ if (isset($_SESSION['username'])) {
             <div class="mb-3">
               <label class="form-label label-width">Allow Ads:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ads" value="0" id="aads-yes" checked />
+                <input class="form-check-input aads" type="radio" name="ads" value="0" id="aads-yes" checked />
                 <label class="form-check-label" for="aads-yes">Yes</label>
               </div>
 
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ads" value="1" id="aads-no" />
+                <input class="form-check-input aads" type="radio" name="ads" value="1" id="aads-no" />
                 <label class="form-check-label" for="aads-no">No</label>
               </div>
             </div>
+          </div>
+
+          <!-- error message -->
+          <div class="d-flex justify-content-center">
+            <div id="amsg" class="col-md-11"></div>
           </div>
 
           <div class="modal-footer">
@@ -87,7 +92,7 @@ if (isset($_SESSION['username'])) {
               Close
             </button>
             <!-- Submit button -->
-            <button type="submit" name="add" class="btn btn-primary">Add Category</button>
+            <button type="submit" name="add" id="add" class="btn btn-primary">Add Category</button>
           </div>
         </form>
       </div>
@@ -102,14 +107,14 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Edit Category</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="includes/processCategories.php" method="post" autocomplete="off">
+        <form id="edit-form" action="includes/processCategories.php" method="post" autocomplete="off">
           <div class="modal-body">
             <input type="hidden" id="id" name="id">
             <input type="hidden" name="hiddenName" id="hiddenName">
             <!-- Name input -->
             <div class="mb-4">
               <label for="name" class="form-label">Name</label>
-              <input type="text" id="name" name="name" class="form-control" aria-describedby="emailHelp" required>
+              <input type="text" id="name" name="name" class="form-control" required>
             </div>
 
             <!-- Description input -->
@@ -128,12 +133,12 @@ if (isset($_SESSION['username'])) {
             <div class="mb-3">
               <label class="form-label label-width">Visible:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="visibility" value="0" id="vis-yes" />
+                <input class="form-check-input visibility" type="radio" name="visibility" value="0" id="vis-yes" />
                 <label class="form-check-label" for="vis-yes">Yes</label>
               </div>
 
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="visibility" value="1" id="vis-no" />
+                <input class="form-check-input visibility" type="radio" name="visibility" value="1" id="vis-no" />
                 <label class="form-check-label" for="vis-no">No</label>
               </div>
             </div>
@@ -142,12 +147,12 @@ if (isset($_SESSION['username'])) {
             <div class="mb-3">
               <label class="form-label label-width">Allow Comments:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="comments" value="0" id="com-yes" />
+                <input class="form-check-input comments" type="radio" name="comments" value="0" id="com-yes" />
                 <label class="form-check-label" for="com-yes">Yes</label>
               </div>
 
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="comments" value="1" id="com-no" />
+                <input class="form-check-input comments" type="radio" name="comments" value="1" id="com-no" />
                 <label class="form-check-label" for="com-no">No</label>
               </div>
             </div>
@@ -156,15 +161,20 @@ if (isset($_SESSION['username'])) {
             <div class="mb-3">
               <label class="form-label label-width">Allow Ads:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ads" value="0" id="ads-yes" />
+                <input class="form-check-input ads" type="radio" name="ads" value="0" id="ads-yes" />
                 <label class="form-check-label" for="ads-yes">Yes</label>
               </div>
 
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="ads" value="1" id="ads-no" />
+                <input class="form-check-input ads" type="radio" name="ads" value="1" id="ads-no" />
                 <label class="form-check-label" for="ads-no">No</label>
               </div>
             </div>
+          </div>
+
+          <!-- error message -->
+          <div class="d-flex justify-content-center">
+            <div id="msg" class="col-md-11"></div>
           </div>
 
           <div class="modal-footer">
@@ -172,7 +182,7 @@ if (isset($_SESSION['username'])) {
               Close
             </button>
             <!-- Submit button -->
-            <button type="submit" name="update" class="btn btn-primary">Save changes</button>
+            <button type="submit" name="update" id="update" class="btn btn-primary">Save changes</button>
           </div>
         </form>
       </div>

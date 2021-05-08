@@ -36,10 +36,37 @@ $(document).ready(function () {
   });
 });
 
-// Edit-Delete category modal
+// category modal
 $(document).ready(function () {
+  // add ajax validation
+  $('#addNewCategoryModal').on('shown.bs.modal', function () {
+    $('#aname').trigger('focus');
+  });
+
+  $('#add-form').submit(function (event) {
+    event.preventDefault();
+    const name = $('#aname').val();
+    const description = $('#adescription').val();
+    const ordering = $('#aordering').val();
+    const visibility = $('.avisibility:checked').val();
+    const comments = $('.acomments:checked').val();
+    const ads = $('.aads:checked').val();
+    const add = $('#add').val();
+
+    $('#amsg').load('includes/processCategories.php', {
+      name: name,
+      description: description,
+      ordering: ordering,
+      visibility: visibility,
+      comments: comments,
+      ads: ads,
+      add: add,
+    });
+  });
+
   $('.editBtn').on('click', function () {
     $('#editModal').modal('show');
+    $('#name').trigger('focus');
 
     $tr = $(this).closest('tr');
     const data = $tr
@@ -90,6 +117,31 @@ $(document).ready(function () {
       $('#ads-yes').prop('checked', true);
       $('#ads-no').prop('checked', false);
     }
+  });
+
+  $('#edit-form').submit(function (event) {
+    event.preventDefault();
+    const id = $('#id').val();
+    const hiddenName = $('#hiddenName').val();
+    const name = $('#name').val();
+    const description = $('#description').val();
+    const ordering = $('#ordering').val();
+    const visibility = $('.visibility:checked').val();
+    const comments = $('.comments:checked').val();
+    const ads = $('.ads:checked').val();
+    const update = $('#update').val();
+
+    $('#msg').load('includes/processCategories.php', {
+      id: id,
+      hiddenName: hiddenName,
+      name: name,
+      description: description,
+      ordering: ordering,
+      visibility: visibility,
+      comments: comments,
+      ads: ads,
+      update: update,
+    });
   });
 
   $('.deleteBtn').on('click', function () {

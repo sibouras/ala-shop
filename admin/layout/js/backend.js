@@ -1,23 +1,3 @@
-// $(function () {
-//   'use strict';
-// });
-
-// const addForm = document.getElementById('add-user-form');
-
-// addForm.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   const formData = new FormData(addForm);
-//   console.log(formData);
-
-//   if (addForm.checkValidity() === false) {
-//     e.preventDefault();
-//     e.stopPropagation();
-//     addForm.classList.add('was-validated');
-//     return false;
-//   } else {
-//   }
-// });
-
 $(document).ready(function () {
   $('#datatableId').DataTable({
     // pagingType: 'full_numbers',
@@ -36,34 +16,9 @@ $(document).ready(function () {
   });
 });
 
-// category modal
+// Category modal
 $(document).ready(function () {
-  // add ajax validation
-  $('#addNewCategoryModal').on('shown.bs.modal', function () {
-    $('#aname').trigger('focus');
-  });
-
-  $('#add-form').submit(function (event) {
-    event.preventDefault();
-    const name = $('#aname').val();
-    const description = $('#adescription').val();
-    const ordering = $('#aordering').val();
-    const visibility = $('.avisibility:checked').val();
-    const comments = $('.acomments:checked').val();
-    const ads = $('.aads:checked').val();
-    const add = $('#add').val();
-
-    $('#amsg').load('includes/processCategories.php', {
-      name: name,
-      description: description,
-      ordering: ordering,
-      visibility: visibility,
-      comments: comments,
-      ads: ads,
-      add: add,
-    });
-  });
-
+  // Fill edit modal with values from closest table row
   $('.editBtn').on('click', function () {
     $('#editModal').modal('show');
     $('#name').trigger('focus');
@@ -119,7 +74,34 @@ $(document).ready(function () {
     }
   });
 
-  $('#edit-form').submit(function (event) {
+  $('#addNewCategoryModal').on('shown.bs.modal', function () {
+    $('#aname').trigger('focus');
+  });
+
+  // Add-form ajax validation
+  $('#add-category-form').submit(function (event) {
+    event.preventDefault();
+    const name = $('#aname').val();
+    const description = $('#adescription').val();
+    const ordering = $('#aordering').val();
+    const visibility = $('.avisibility:checked').val();
+    const comments = $('.acomments:checked').val();
+    const ads = $('.aads:checked').val();
+    const add = $('#add').val();
+
+    $('#amsg').load('includes/processCategories.php', {
+      name: name,
+      description: description,
+      ordering: ordering,
+      visibility: visibility,
+      comments: comments,
+      ads: ads,
+      add: add,
+    });
+  });
+
+  // Edit-form ajax validation
+  $('#edit-category-form').submit(function (event) {
     event.preventDefault();
     const id = $('#id').val();
     const hiddenName = $('#hiddenName').val();
@@ -144,6 +126,7 @@ $(document).ready(function () {
     });
   });
 
+  // Delete modal
   $('.deleteBtn').on('click', function () {
     $tr = $(this).closest('tr');
     const data = $tr
@@ -156,26 +139,12 @@ $(document).ready(function () {
   });
 });
 
-// items form validation
-// $(document).ready(function () {
-//   $('#add_form').on('submit', function (event) {
-//     event.preventDefault();
-//     if ($('#aname').val() == '') {
-//       alert('Name is required');
-//     } else if ($('#aprice').val() == '') {
-//       alert('Price is required');
-//     } else if ($('#acountry').val() == '') {
-//       alert('Country is required');
-//     } else {
-//       $(this).unbind('submit').submit();
-//     }
-//   });
-// });
-
-// Edit-Delete item modal
+// Items modal
 $(document).ready(function () {
+  // Fill edit modal with values from closest table row
   $('.editItemBtn').on('click', function () {
     $('#editItemModal').modal('show');
+    $('#name').trigger('focus');
 
     $tr = $(this).closest('tr');
     const data = $tr
@@ -185,12 +154,10 @@ $(document).ready(function () {
       })
       .get();
 
-    console.log(data);
     const id = $tr.children('th').text();
 
     $('#id').val(id);
     $('#name').val(data[0]);
-    $('#hiddenName').val(data[0]);
     $('#description').val(data[1]);
     $('#price').val(data[2]);
     $('#country').val(data[3]);
@@ -203,6 +170,56 @@ $(document).ready(function () {
     $tr = $(this).closest('tr');
     const id = $tr.children('th').text();
     $('#deleteID').val(id);
+  });
+
+  $('#addNewItemModal').on('shown.bs.modal', function () {
+    $('#aname').trigger('focus');
+  });
+
+  // Add-form ajax validation
+  $('#add-item-form').submit(function (event) {
+    event.preventDefault();
+    const name = $('#aname').val();
+    const description = $('#adescription').val();
+    const price = $('#aprice').val();
+    const country = $('#acountry').val();
+    const status = $('#astatus').val();
+    const category = $('#acategory').val();
+    const add = $('#add').val();
+
+    $('#amsg').load('includes/processItems.php', {
+      name: name,
+      description: description,
+      price: price,
+      country: country,
+      status: status,
+      category: category,
+      add: add,
+    });
+  });
+
+  // Edit-form ajax validation
+  $('#edit-item-form').submit(function (event) {
+    event.preventDefault();
+    const id = $('#id').val();
+    const name = $('#name').val();
+    const description = $('#description').val();
+    const price = $('#price').val();
+    const country = $('#country').val();
+    const status = $('#status').val();
+    const category = $('#category').val();
+    const update = $('#update').val();
+
+    $('#msg').load('includes/processItems.php', {
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      country: country,
+      status: status,
+      category: category,
+      update: update,
+    });
   });
 });
 

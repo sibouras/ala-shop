@@ -29,8 +29,7 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Add New Item</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <!-- id for jquery validation -->
-        <form id="add_form" action="includes/processItems.php" method="post" autocomplete="off">
+        <form id="add-item-form" action="includes/processItems.php" method="post" autocomplete="off">
           <div class="modal-body">
             <!-- Name input -->
             <div class="row mb-3">
@@ -44,7 +43,7 @@ if (isset($_SESSION['username'])) {
             <div class="row mb-3">
               <label for="adescription" class="col-sm-2 col-form-label">Description</label>
               <div class="col-sm-10 ps-4">
-                <input type="text" name="description" class="form-control" id="adescription">
+                <textarea type="text" name="description" class="form-control" id="adescription"></textarea>
               </div>
             </div>
 
@@ -92,7 +91,11 @@ if (isset($_SESSION['username'])) {
                 </select>
               </div>
             </div>
+          </div>
 
+          <!-- error message -->
+          <div class="d-flex justify-content-center">
+            <div id="amsg" class="col-md-11"></div>
           </div>
 
           <div class="modal-footer">
@@ -100,7 +103,7 @@ if (isset($_SESSION['username'])) {
               Close
             </button>
             <!-- Submit button -->
-            <button type="submit" name="add" class="btn btn-primary">Add Item</button>
+            <button type="submit" name="add" id="add" class="btn btn-primary">Add Item</button>
           </div>
         </form>
       </div>
@@ -115,10 +118,9 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Edit New Item</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="includes/processItems.php" method="post" autocomplete="off">
+        <form id="edit-item-form" action="includes/processItems.php" method="post" autocomplete="off">
           <div class="modal-body">
             <input type="hidden" id="id" name="id">
-            <input type="hidden" name="hiddenName" id="hiddenName">
             <!-- Name input -->
             <div class="row mb-3">
               <label for="name" class="col-sm-2 col-form-label">Name</label>
@@ -131,7 +133,7 @@ if (isset($_SESSION['username'])) {
             <div class="row mb-3">
               <label for="description" class="col-sm-2 col-form-label">Description</label>
               <div class="col-sm-10 ps-4">
-                <input type="text" name="description" class="form-control" id="description">
+                <textarea type="text" name="description" class="form-control" id="description"></textarea>
               </div>
             </div>
 
@@ -183,7 +185,11 @@ if (isset($_SESSION['username'])) {
                 </div>
               </div>
             </div>
+          </div>
 
+          <!-- error message -->
+          <div class="d-flex justify-content-center">
+            <div id="msg" class="col-md-11"></div>
           </div>
 
           <div class="modal-footer">
@@ -191,7 +197,7 @@ if (isset($_SESSION['username'])) {
               Close
             </button>
             <!-- Submit button -->
-            <button type="submit" name="update" class="btn btn-primary">Save changes</button>
+            <button type="submit" name="update" id="update" class="btn btn-primary">Save changes</button>
           </div>
         </form>
       </div>
@@ -257,7 +263,6 @@ if (isset($_SESSION['username'])) {
                     <th scope="col">Add Date</th>
                     <th scope="col" style="display: none;">Status</th>
                     <th scope="col" style="display: none;">Category ID</th>
-                    <th scope="col" style="display: none;">User ID</th>
                     <th scope="col">Category</th>
                     <th scope="col">Action</th>
                   </tr>

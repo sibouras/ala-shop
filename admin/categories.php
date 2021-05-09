@@ -19,7 +19,7 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Add New Category</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="add-form" action="includes/processCategories.php" method="post" autocomplete="off">
+        <form id="add-category-form" action="includes/processCategories.php" method="post" autocomplete="off">
           <div class="modal-body">
             <!-- Name input -->
             <div class="mb-4">
@@ -107,7 +107,7 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Edit Category</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="edit-form" action="includes/processCategories.php" method="post" autocomplete="off">
+        <form id="edit-category-form" action="includes/processCategories.php" method="post" autocomplete="off">
           <div class="modal-body">
             <input type="hidden" id="id" name="id">
             <input type="hidden" name="hiddenName" id="hiddenName">

@@ -78,7 +78,7 @@ $(document).ready(function () {
     $('#aname').trigger('focus');
   });
 
-  // Add-form ajax validation
+  // Add-category-form ajax validation
   $('#add-category-form').submit(function (event) {
     event.preventDefault();
     const name = $('#aname').val();
@@ -100,7 +100,7 @@ $(document).ready(function () {
     });
   });
 
-  // Edit-form ajax validation
+  // Edit-category-form ajax validation
   $('#edit-category-form').submit(function (event) {
     event.preventDefault();
     const id = $('#id').val();
@@ -155,71 +155,65 @@ $(document).ready(function () {
       .get();
 
     const id = $tr.children('th').text();
+    const image = $tr.find('img').attr('alt');
+    $('#img').attr('src', image);
 
     $('#id').val(id);
-    $('#name').val(data[0]);
-    $('#description').val(data[1]);
-    $('#price').val(data[2]);
-    $('#country').val(data[3]);
+    $('#name').val(data[1]);
+    $('#description').val(data[2]);
+    $('#price').val(data[3]);
+    $('#country').val(data[4]);
 
-    $('#select-status select').val(data[5]);
-    $('#select-category select').val(data[6]);
-  });
-
-  $('.deleteItemBtn').on('click', function () {
-    $tr = $(this).closest('tr');
-    const id = $tr.children('th').text();
-    $('#deleteID').val(id);
+    $('#select-status select').val(data[6]);
+    $('#select-category select').val(data[7]);
   });
 
   $('#addNewItemModal').on('shown.bs.modal', function () {
     $('#aname').trigger('focus');
   });
 
-  // Add-form ajax validation
+  // Add-item-form ajax validation
   $('#add-item-form').submit(function (event) {
     event.preventDefault();
-    const name = $('#aname').val();
-    const description = $('#adescription').val();
-    const price = $('#aprice').val();
-    const country = $('#acountry').val();
-    const status = $('#astatus').val();
-    const category = $('#acategory').val();
-    const add = $('#add').val();
-
-    $('#amsg').load('includes/processItems.php', {
-      name: name,
-      description: description,
-      price: price,
-      country: country,
-      status: status,
-      category: category,
-      add: add,
+    var formData = new FormData(this);
+    // appended add for isset post['add'] to work
+    formData.append('add', '');
+    $.ajax({
+      url: 'includes/processItems.php',
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        $('#amsg').html(response);
+      },
     });
   });
 
-  // Edit-form ajax validation
+  // Edit-item-form ajax validation
   $('#edit-item-form').submit(function (event) {
     event.preventDefault();
-    const id = $('#id').val();
-    const name = $('#name').val();
-    const description = $('#description').val();
-    const price = $('#price').val();
-    const country = $('#country').val();
-    const status = $('#status').val();
-    const category = $('#category').val();
-    const update = $('#update').val();
-
-    $('#msg').load('includes/processItems.php', {
-      id: id,
-      name: name,
-      description: description,
-      price: price,
-      country: country,
-      status: status,
-      category: category,
-      update: update,
+    const oldImage = $tr.find('img').attr('alt');
+    var formData = new FormData(this);
+    // appended update for isset post['update'] to work
+    formData.append('update', oldImage);
+    $.ajax({
+      url: 'includes/processItems.php',
+      method: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        $('#msg').html(response);
+      },
     });
+  });
+
+  // Delete modal
+  $('.deleteItemBtn').on('click', function () {
+    $tr = $(this).closest('tr');
+    const id = $tr.children('th').text();
+    $('#deleteID').val(id);
   });
 });
 

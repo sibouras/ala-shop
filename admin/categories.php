@@ -22,19 +22,19 @@ if (isset($_SESSION['username'])) {
         <form id="add-category-form" action="includes/processCategories.php" method="post" autocomplete="off">
           <div class="modal-body">
             <!-- Name input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <label for="aname" class="form-label">Name</label>
               <input type="text" name="name" class="form-control" id="aname" required>
             </div>
 
             <!-- Description input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <label class="form-label" for="adescription">Description</label>
-              <input type="text" name="description" id="adescription" class="form-control" />
+              <textarea type="text" name="description" id="adescription" class="form-control" /></textarea>
             </div>
 
             <!-- Ordering input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <label class="form-label" for="aordering">Ordering</label>
               <input type="text" name="ordering" id="aordering" class="form-control" />
             </div>
@@ -112,19 +112,19 @@ if (isset($_SESSION['username'])) {
             <input type="hidden" id="id" name="id">
             <input type="hidden" name="hiddenName" id="hiddenName">
             <!-- Name input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <label for="name" class="form-label">Name</label>
               <input type="text" id="name" name="name" class="form-control" required>
             </div>
 
             <!-- Description input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <label class="form-label" for="description">Description</label>
-              <input type="text" name="description" id="description" class="form-control" />
+              <textarea type="text" name="description" id="description" class="form-control" /></textarea>
             </div>
 
             <!-- Ordering input -->
-            <div class="mb-4">
+            <div class="mb-3">
               <label class="form-label" for="ordering">Ordering</label>
               <input type="text" name="ordering" id="ordering" class="form-control" />
             </div>
@@ -217,7 +217,7 @@ if (isset($_SESSION['username'])) {
   <main style="margin-top: 58px">
     <div class="container pt-4">
       <!--Section: Sales Performance KPIs-->
-      <section class="mb-4">
+      <section class="mb-3">
         <div class="card">
           <div class="card-header text-center py-3">
             <h4 class="mb-0 text-center">

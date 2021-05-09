@@ -29,7 +29,7 @@ if (isset($_SESSION['username'])) {
           <h5 class="modal-title">Add New Item</h5>
           <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form id="add-item-form" action="includes/processItems.php" method="post" autocomplete="off">
+        <form id="add-item-form" action="includes/processItems.php" method="post" autocomplete="off" enctype="multipart/form-data" novalidate>
           <div class="modal-body">
             <!-- Name input -->
             <div class="row mb-3">
@@ -91,11 +91,20 @@ if (isset($_SESSION['username'])) {
                 </select>
               </div>
             </div>
+
+            <!-- Image input -->
+            <div class="row mb-3">
+              <label for="aimage" class="col-sm-2 col-form-label">Image</label>
+              <div class="col-sm-10 ps-4">
+                <input type="file" name="image" class="form-control" id="aimage" required>
+              </div>
+            </div>
+
           </div>
 
           <!-- error message -->
           <div class="d-flex justify-content-center">
-            <div id="amsg" class="col-md-11"></div>
+            <div id="amsg" class="col-md-11"> </div>
           </div>
 
           <div class="modal-footer">
@@ -185,6 +194,16 @@ if (isset($_SESSION['username'])) {
                 </div>
               </div>
             </div>
+
+            <!-- Image input -->
+            <div class="row">
+              <label for="image" class="col-sm-2 col-form-label">Image</label>
+              <div class="col-sm-10 ps-4">
+                <input type="file" name="image" class="form-control" id="image">
+              </div>
+              <img id="img" class="editImg" src="../uploads/itemImages/default.png" alt="">
+            </div>
+
           </div>
 
           <!-- error message -->
@@ -241,7 +260,7 @@ if (isset($_SESSION['username'])) {
           <div class="row justify-content-center">
             <div class="col-md-8 text-center">
               <?php if (isset($_SESSION['message'])) : ?>
-                <div class="alert alert-dismissible fade show alert-<?= $_SESSION['msgType'] ?>" role="alert" data-mdb-color="warning">
+                <div class="alert alert-dismissible fade show alert-<?= $_SESSION['msgType']; ?>" role="alert" data-mdb-color="warning">
                   <strong><?= $_SESSION['message']; ?></strong>
                   <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -252,12 +271,13 @@ if (isset($_SESSION['username'])) {
           <div class="card-body">
             <button type="button" class="btn btn-primary mb-4" data-mdb-toggle="modal" data-mdb-target="#addNewItemModal"><i class="fa fa-plus me-2"></i> Add new Item</button>
             <div class="table-responsive">
-              <table id="datatableId" class="table table-hover text-nowrap">
+              <table id="datatableId" class="table table-hover text-nowrap align-middle">
                 <thead>
                   <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col" style="display: none;">Description</th>
                     <th scope="col">Price</th>
                     <th scope="col">Country</th>
                     <th scope="col">Add Date</th>
@@ -271,8 +291,15 @@ if (isset($_SESSION['username'])) {
                   <?php foreach ($rows as $row) : ?>
                     <tr>
                       <th scope="row"><?= $row['id']; ?></th>
+                      <td>
+                        <?php if (empty($row['image'])) : ?>
+                          <img class="tableImg" src="../uploads/itemImages/default.png" alt="../uploads/itemImages/default.png">
+                        <?php else : ?>
+                          <img class="tableImg" src="../uploads/itemImages/<?= $row['image']; ?>" alt="../uploads/itemImages/<?= $row['image']; ?>">
+                        <?php endif; ?>
+                      </td>
                       <td><?= $row['name']; ?></td>
-                      <td><?php echo ($row['description']) ? $row['description'] : 'No description'; ?></td>
+                      <td style="display: none;"><?php echo ($row['description']) ? $row['description'] : 'No description'; ?></td>
                       <td><?= $row['price']; ?></td>
                       <td><?= $row['country_made'] ?></td>
                       <td><?= $row['add_date']; ?></td>

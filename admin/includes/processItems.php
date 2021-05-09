@@ -17,6 +17,16 @@ if (isset($_POST['add'])) {
   $status = $_POST['status'];
   $category = $_POST['category'];
 
+  // Image upload
+  $img = $_FILES['image'];
+  $imageName = $img['name'];
+  $imageSize = $img['size'];
+  $imageTmp = $img['tmp_name'];
+  $allowedExtensions = ['jpeg', 'jpg', 'png', 'gif'];
+  $arr = explode('.', $imageName);
+  $imageStart = strtolower(reset($arr));
+  $imageExtension = strtolower(end($arr));
+
   $msg = '';
   $focus = '';
 
@@ -44,10 +54,22 @@ if (isset($_POST['add'])) {
   } else if (empty($category)) {
     $focus = "#acategory";
     $msg = "Choose category!";
+  } else if (empty($imageName)) {
+    $focus = "#aimage";
+    $msg = 'An image is required';
+  } else if (!in_array($imageExtension, $allowedExtensions)) {
+    $focus = "#aimage";
+    $msg = "This extension is not allowed";
+  } else if ($imageSize > 4194304) {
+    $focus = "#aimage";
+    $msg = "Image can't be larger than 4mb";
   } else {
     $msg = '';
-    $stmt = $pdo->prepare("INSERT INTO items(name, description, price, country_made, status, category_id, add_date) VALUES (?,?,?,?,?,?,now())");
-    $stmt->execute([$name, $description, $price, $country, $status, $category]);
+    $image = $imageStart . '_' . rand(0, 10000) . '.' . $imageExtension;
+    move_uploaded_file($imageTmp, "../../uploads/itemImages/$image");
+
+    $stmt = $pdo->prepare("INSERT INTO items(name, description, price, country_made, status, category_id, add_date, image) VALUES (?,?,?,?,?,?,now(),?)");
+    $stmt->execute([$name, $description, $price, $country, $status, $category, $image]);
 
     $_SESSION['message'] = "Successfully Inserted to the database";
     $_SESSION['msgType'] = "success";
@@ -69,6 +91,20 @@ if (isset($_POST['update'])) {
   $country = $_POST['country'];
   $status = $_POST['status'];
   $category = $_POST['category'];
+
+  $img = $_FILES['image'];
+  $imageName = $img['name'];
+  $imageSize = $img['size'];
+  $imageTmp = $img['tmp_name'];
+  $allowedExtensions = ['jpeg', 'jpg', 'png', 'gif'];
+
+  // $_POST['update'] has the file path
+  $oldImage = $_POST['update'];
+  if (!empty($imageName)) {
+    $arr = explode('.', $imageName);
+    $imageStart = strtolower(reset($arr));
+    $imageExtension = strtolower(end($arr));
+  }
 
   $msg = '';
   $focus = '';
@@ -97,10 +133,29 @@ if (isset($_POST['update'])) {
   } else if (empty($category)) {
     $focus = "#category";
     $msg = "Choose category!";
+  } else if (isset($imageExtension) && !in_array($imageExtension, $allowedExtensions)) {
+    $focus = "#image";
+    $msg = "This extension is not allowed";
+  } else if ($imageSize > 4194304) {
+    $focus = "#image";
+    $msg = "Image can't be larger than 4mb";
   } else {
     $msg = '';
-    $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ?, category_id = ? WHERE id = ?");
-    $stmt->execute([$name, $description, $price, $country, $status, $category, $id]);
+    if (empty($imageName)) {
+      $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ?, category_id = ? WHERE id = ?");
+      $stmt->execute([$name, $description, $price, $country, $status, $category, $id]);
+    } else {
+      $file = "../$oldImage";
+      $default = "../../uploads/itemImages/default.png";
+      if (file_exists($file) && $file != $default) {
+        unlink($file);
+      }
+      $image = $imageStart . '_' . rand(0, 10000) . '.' . $imageExtension;
+      move_uploaded_file($imageTmp, "../../uploads/itemImages/$image");
+
+      $stmt = $pdo->prepare("UPDATE items SET name = ?, description = ?, price = ?, country_made = ?, status = ?, category_id = ?, image = ? WHERE id = ?");
+      $stmt->execute([$name, $description, $price, $country, $status, $category, $image, $id]);
+    }
 
     $_SESSION['message'] = "Item has been Updated successfully";
     $_SESSION['msgType'] = "warning";
@@ -119,6 +174,17 @@ if (isset($_POST['delete'])) {
 
   // Check if id exists in database
   if (checkItem("id", "items", $id)) {
+    // Delete image from directory
+    $stmt = $pdo->prepare("SELECT image FROM items WHERE id = ?");
+    $stmt->execute([$id]);
+    $image = $stmt->fetchColumn();
+    $file = "../../uploads/itemImages/$image";
+    $default = "../../uploads/itemImages/default.png";
+    if (file_exists($file) && $file != $default) {
+      unlink($file);
+    }
+
+    // Delete record
     $stmt = $pdo->prepare("DELETE FROM items WHERE id = ?");
     $stmt->execute([$id]);
 

@@ -26,7 +26,6 @@ if (isset($_POST['save'])) {
   // Password Trick
   $password = empty($_POST['newpassword']) ? $password = $_POST['oldpassword'] : $password = sha1($_POST['newpassword']);
 
-
   // Image upload
   $img = $_FILES['image'];
   $imageName = $img['name'];
@@ -35,10 +34,11 @@ if (isset($_POST['save'])) {
   $allowedExtensions = ['jpeg', 'jpg', 'png', 'gif'];
 
   $oldImage = $_POST['oldimage'];
-  $imageNewName = empty($imageName) ? $oldImage : $imageName;
-  $arr = explode('.', $imageNewName);
-  $imageStart = strtolower(reset($arr));
-  $imageExtension = strtolower(end($arr));
+  if (!empty($imageName)) {
+    $arr = explode('.', $imageName);
+    $imageStart = strtolower(reset($arr));
+    $imageExtension = strtolower(end($arr));
+  }
 
   // Validate the form
   if (empty($username)) {
@@ -55,8 +55,7 @@ if (isset($_POST['save'])) {
     $formErrors['email'] = "An Email is required";
   } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $formErrors['email'] = "Email must be a valid email address";
-  }
-  if (!in_array($imageExtension, $allowedExtensions)) {
+  } else if (isset($imageExtension) && !in_array($imageExtension, $allowedExtensions)) {
     $formErrors['image'] = "This extension is not allowed";
   } else if ($imageSize > 4194304) {
     $formErrors['image'] = "Image can't be larger than 4mb";
@@ -70,7 +69,11 @@ if (isset($_POST['save'])) {
       $stmt = $pdo->prepare("UPDATE users SET userName = ?, email = ?, fullName = ?, password = ? WHERE userID = ?");
       $stmt->execute([$username, $email, $fullname, $password, $userid]);
     } else {
-      unlink("../../uploads/profileImages/$oldImage");
+      $file = "../../uploads/profileImages/$oldImage";
+      $default = "../../uploads/profileImages/default.png";
+      if (file_exists($file) && $file != $default) {
+        unlink($file);
+      }
       $image = $imageStart . '_' . rand(0, 10000) . '.' . $imageExtension;
       move_uploaded_file($imageTmp, "../../uploads/profileImages/$image");
 
@@ -163,8 +166,11 @@ if (isset($_GET['delete'])) {
     $stmt = $pdo->prepare("SELECT image FROM users WHERE userID = ?");
     $stmt->execute([$userid]);
     $image = $stmt->fetchColumn();
-    echo $image;
-    unlink("../../uploads/profileImages/$image");
+    $file = "../../uploads/profileImages/$image";
+    $default = "../../uploads/profileImages/default.png";
+    if (file_exists($file) && $file != $default) {
+      unlink($file);
+    }
 
     // Delete record
     $stmt = $pdo->prepare("DELETE FROM users WHERE userID = ?");

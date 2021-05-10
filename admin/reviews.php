@@ -6,13 +6,17 @@ if (isset($_SESSION['username'])) {
   $pageTitle = 'Reviews';
   include 'init.php';
 
+  $query = '';
+  if (isset($_GET['page']) && $_GET['page'] == 'new') {
+    $query = "WHERE reviews.date >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)";
+  }
   $stmt = $pdo->prepare(
     "SELECT reviews.*,
       items.name AS item,
       users.username AS username
     FROM reviews
       INNER JOIN items ON items.id = reviews.item_id
-      INNER JOIN users ON users.userID = reviews.user_id;
+      INNER JOIN users ON users.userID = reviews.user_id $query;
     "
   );
   $stmt->execute();

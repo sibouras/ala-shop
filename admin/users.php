@@ -12,7 +12,6 @@ if (isset($_SESSION['username'])) {
     if (isset($_GET['page']) && $_GET['page'] == 'pending') {
       $query = 'AND regStatus = 0';
     }
-
     $stmt = $pdo->prepare("SELECT * FROM users WHERE groupID != 1 $query");
     $stmt->execute();
     $rows = $stmt->fetchAll();

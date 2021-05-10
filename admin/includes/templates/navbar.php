@@ -1,3 +1,13 @@
+<?php
+if (isset($_SESSION['userid'])) {
+  $id =  $_SESSION['userid'];
+  $stmt = $pdo->prepare("SELECT image FROM users WHERE userID = ?");
+  $stmt->execute([$id]);
+  $image = $stmt->fetchColumn();
+  $file = "../uploads/profileImages/$image";
+}
+?>
+
 <!-- Navbar -->
 <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
   <!-- Container wrapper -->
@@ -66,7 +76,7 @@
       <!-- Avatar -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-          <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22" alt="" loading="lazy" />
+          <img src="<?= $file; ?>" class="rounded-circle" height="22" alt="" loading="lazy" />
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
           <li><a class="dropdown-item" href="users.php?do=edit&userid=<?= $_SESSION['userid'] ?>">My profile</a></li>

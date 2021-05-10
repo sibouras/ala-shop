@@ -6,11 +6,15 @@ if (isset($_SESSION['username'])) {
   $pageTitle = 'Items';
   include 'init.php';
 
+  $query = '';
+  if (isset($_GET['page']) && $_GET['page'] == 'new') {
+    $query = "WHERE add_date >= DATE_SUB(CURDATE(), INTERVAL 10 DAY)";
+  }
   $stmt = $pdo->prepare(
     "SELECT items.*,
       categories.name AS category_name
     FROM items
-      INNER JOIN categories ON categories.id = items.category_id;
+      INNER JOIN categories ON categories.id = items.category_id $query;
     "
   );
   $stmt->execute();

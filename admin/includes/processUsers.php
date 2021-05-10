@@ -41,8 +41,12 @@ if (isset($_POST['save'])) {
   }
 
   // Validate the form
-  if (empty($username)) {
-    $formErrors['username'] = 'A Username is required';
+  $stmt = $pdo->prepare("SELECT userID FROM users WHERE userName = ? AND userID != ?");
+  $stmt->execute([$username, $userid]);
+  if ($stmt->rowCount()) {
+    $formErrors['username'] = 'Username already exists!';
+  } else if (empty($username)) {
+    $formErrors['username'] = 'A Username is required!';
   } else if (strlen($username) < 3) {
     $formErrors['username'] = "Username can't be less than 3 characters";
   }

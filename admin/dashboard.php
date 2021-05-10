@@ -38,7 +38,9 @@ if (isset($_SESSION['username'])) {
               <div class="card-body">
                 <div class="d-flex justify-content-between px-md-1">
                   <div class="align-self-center">
-                    <i class="fas fa-shopping-cart text-info fa-3x"></i>
+                    <a href="items.php?page=new">
+                      <i class="fas fa-shopping-cart text-info fa-3x"></i>
+                    </a>
                   </div>
                   <div class="text-end">
                     <h3><?php echo countNewItems('id', 'items', 'add_date'); ?></h3>
@@ -54,7 +56,9 @@ if (isset($_SESSION['username'])) {
               <div class="card-body">
                 <div class="d-flex justify-content-between px-md-1">
                   <div class="align-self-center">
-                    <i class="far fa-comment-alt text-warning fa-3x"></i>
+                    <a href="reviews.php?page=new">
+                      <i class="far fa-comment-alt text-warning fa-3x"></i>
+                    </a>
                   </div>
                   <div class="text-end">
                     <h3><?php echo countNewItems('id', 'reviews', 'date'); ?></h3>
@@ -116,7 +120,9 @@ if (isset($_SESSION['username'])) {
                 <div class="d-flex justify-content-between p-md-1">
                   <div class="d-flex flex-row">
                     <div class="align-self-center">
-                      <i class="far fa-comment-alt text-warning fa-3x me-4"></i>
+                      <a href="reviews.php">
+                        <i class="far fa-comment-alt text-warning fa-3x me-4"></i>
+                      </a>
                     </div>
                     <div>
                       <h4>Total Reviews</h4>

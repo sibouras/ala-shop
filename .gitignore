@@ -11,3 +11,8 @@ admin/includes/insert.php
 # uploads file
 uploads/
 assets/
+
+# html-template
+HTML-template/
+layout/img/
+layout/source/

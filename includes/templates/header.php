@@ -1,3 +1,10 @@
+<?php
+require('includes/functions/functions.php');
+$categories = $product->getData(
+  "SELECT name FROM categories"
+);
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -80,9 +87,9 @@
                 <span class="current">All Categories</span>
                 <ul class="list">
                   <li><a href="#">All Categories</a></li>
-                  <li><a href="#">watch</a></li>
-                  <li><a href="#">mobile</a></li>
-                  <li><a href="#">kid’s item</a></li>
+                  <?php foreach ($categories as $cat) : ?>
+                    <li><a href="#"><?= $cat['name']; ?></a></li>
+                  <?php endforeach; ?>
                 </ul>
               </div>
               <!-- <button type="button" class="category-btn">

@@ -3,7 +3,7 @@ $products = $product->getData(
   "SELECT items.*,
     categories.name AS category_name
   FROM items
-    INNER JOIN categories ON categories.id = items.category_id LIMIT 10;
+    INNER JOIN categories ON categories.id = items.category_id LIMIT 12;
   "
 );
 shuffle($products);

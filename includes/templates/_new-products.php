@@ -9,7 +9,6 @@ $newProducts = $product->getNewData(
 );
 shuffle($newProducts);
 
-// request method post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['new-products_submit'])) {
     $cart->insertIntoCart($_POST['user_id'], $_POST['item_id']);

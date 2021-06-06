@@ -188,3 +188,8 @@
     padding: 16px 12px 12px 11px;
   }
 }
+
+/* remove shopping cart first row padding */
+.cart-table table tr td.first-row {
+  padding-top: 0px;
+}

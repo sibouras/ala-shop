@@ -1,13 +1,27 @@
-<?php include('includes/templates/header.php'); ?>
+<?php
+include('includes/templates/header.php');
+
+$item_id = $_GET['item_id'] ?? 1;
+$item = $product->getData(
+  "SELECT items.*,
+    categories.name AS category_name
+  FROM items
+    INNER JOIN categories ON categories.id = items.category_id
+  WHERE items.id = $item_id;
+  "
+);
+$item = $item[0];
+?>
+
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="breadcrumb-text product-more">
-          <a href="./home.html"><i class="fa fa-home"></i> Home</a>
-          <a href="./shop.html">Shop</a>
-          <span>Detail</span>
+          <a href="./index.php"><i class="fa fa-home"></i> Home</a>
+          <a href="./shop.php">Shop</a>
+          <span><?= $item['name']; ?></span>
         </div>
       </div>
     </div>
@@ -23,15 +37,15 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="product-pic-zoom">
-              <img class="product-big-img" src="layout/img/product-single/880x1040.png" alt="" />
+              <img class="product-big-img" src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
               <div class="zoom-icon">
                 <i class="fa fa-search-plus"></i>
               </div>
             </div>
             <div class="product-thumbs">
               <div class="product-thumbs-track ps-slider owl-carousel">
-                <div class="pt active" data-imgbigurl="layout/img/product-single/880x1040.png">
-                  <img src="layout/img/product-single/880x1040.png" alt="" />
+                <div class="pt active" data-imgbigurl="uploads/itemImages/<?= $item['image']; ?>">
+                  <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
                 </div>
                 <div class="pt" data-imgbigurl="layout/img/product-single/product-2.jpg">
                   <img src="layout/img/product-single/product-2.jpg" alt="" />
@@ -48,8 +62,8 @@
           <div class="col-lg-6">
             <div class="product-details">
               <div class="pd-title">
-                <span>oranges</span>
-                <h3>Pure Pineapple</h3>
+                <span><?= $item['category_name']; ?></span>
+                <h3><?= $item['name']; ?></h3>
                 <a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
               </div>
               <div class="pd-rating">
@@ -58,15 +72,19 @@
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
                 <i class="fa fa-star-o"></i>
-                <span>(5)</span>
+                <span>(4)</span>
               </div>
               <div class="pd-desc">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur ing elit, sed do
-                  eiusmod tempor sum dolor sit amet, consectetur adipisicing
-                  elit, sed do mod tempor
-                </p>
-                <h4>$495.00 <span>629.99</span></h4>
+                <p><?= $item['description']; ?></p>
+                <h4 class="product-price">
+                  <?= $item['price']; ?>
+                  <span>
+                    <?php
+                    $price = (float) filter_var($item['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                    echo '&' . $price + ($price * 30 / 100);
+                    ?>
+                  </span>
+                </h4>
               </div>
               <div class="pd-color">
                 <h6>Color</h6>

@@ -4,6 +4,7 @@
 class Product
 {
   public $db;
+
   public function __construct($db)
   {
     $this->db = $db;
@@ -20,7 +21,7 @@ class Product
   // fetch last 10 day's records
   function getNewData($query, $interval)
   {
-    $stmt = $this->db->prepare("$query WHERE add_date >= DATE_SUB(CURDATE(), INTERVAL $interval DAY)");
+    $stmt = $this->db->prepare("$query WHERE add_date >= DATE_SUB(CURDATE(), INTERVAL $interval DAY) LIMIT 10");
     $stmt->execute();
     return $stmt->fetchAll();
   }

@@ -3,30 +3,30 @@ $products = $product->getData(
   "SELECT items.*,
     categories.name AS category_name
   FROM items
-    INNER JOIN categories ON categories.id = items.category_id;
+    INNER JOIN categories ON categories.id = items.category_id LIMIT 10;
   "
 );
 shuffle($products);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_POST['top-sale_submit'])) {
+    $cart->insertIntoCart($_POST['user_id'], $_POST['item_id']);
+  }
+}
 ?>
 <!-- Top Sale Section Begin -->
 <section class="women-banner spad">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
-      <div class="col-lg-3">
-        <div class="product-large set-bg" data-setbg="layout/img/products/women-large.jpg">
-          <h2>Women’s</h2>
-          <a href="#">Discover More</a>
-        </div>
-      </div>
-      <div class="col-lg-8 offset-lg-1">
+      <div class="col-lg-12">
         <div class="section-title">
           <h2>Top Sale</h2>
         </div>
-        <div class="product-slider owl-carousel">
+        <div class="new-products-slider owl-carousel">
           <?php foreach ($products as $item) : ?>
             <div class="product-item">
               <div class="pi-pic">
-                <a href="product.html">
+                <a href="product.php?item_id=<?= $item['id']; ?>">
                   <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
                 </a>
                 <div class="sale">Sale</div>
@@ -35,7 +35,11 @@ shuffle($products);
                 </div>
                 <ul>
                   <li class="w-icon active">
-                    <a href="#"><i class="icon_bag_alt"></i></a>
+                    <form method="POST">
+                      <input type="hidden" name="user_id" value="<?= 1; ?>">
+                      <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
+                      <button type="submit" name="top-sale_submit"><i class="icon_bag_alt"></i></button>
+                    </form>
                   </li>
                   <li class="quick-view"><a href="#">+ Quick View</a></li>
                   <li class="w-icon">
@@ -45,15 +49,14 @@ shuffle($products);
               </div>
               <div class="pi-text">
                 <div class="catagory-name"><?= $item['category_name']; ?></div>
-                <a href="#">
+                <a href="product.php?item_id=<?= $item['id']; ?>">
                   <h5><?= $item['name']; ?></h5>
                 </a>
                 <div class="product-price">
                   <?= $item['price']; ?>
                   <span>
                     <?php
-                    preg_match('/(\d[\d.]*)/', $item['price'], $matches);
-                    $price = $matches[0];
+                    $price = (float) filter_var($item['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
                     echo '&' . $price + ($price * 30 / 100);
                     ?>
                   </span>

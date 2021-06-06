@@ -1,4 +1,7 @@
-<?php include('includes/templates/header.php'); ?>
+<?php
+ob_start();
+include('includes/templates/header.php');
+?>
 
 <!-- Hero Section Begin -->
 <section class="hero-section">
@@ -153,4 +156,7 @@
 <?php include('includes/templates/_blog.php'); ?>
 <!-- Latest Blog Section End -->
 
-<?php include('includes/templates/footer.php'); ?>
+<?php
+include('includes/templates/footer.php');
+ob_end_flush();
+?>

@@ -5,6 +5,12 @@ $categories = array_map(function ($product) {
 }, $products);
 $categories = array_unique($categories);
 sort($categories);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_POST['featured_submit'])) {
+    $cart->insertIntoCart($_POST['user_id'], $_POST['item_id']);
+  }
+}
 ?>
 <!-- Featured Section Begin -->
 <section class="featured spad">
@@ -29,13 +35,19 @@ sort($categories);
         <div class="col-lg-3 col-md-4 col-sm-6 mix <?= $item['category_name']; ?>">
           <div class="product-item">
             <div class="pi-pic">
-              <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
+              <a href="product.php?item_id=<?= $item['id']; ?>">
+                <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
+              </a>
               <div class="icon">
                 <i class="icon_heart_alt"></i>
               </div>
               <ul>
                 <li class="w-icon active">
-                  <a href="#"><i class="icon_bag_alt"></i></a>
+                  <form method="POST">
+                    <input type="hidden" name="user_id" value="<?= 1; ?>">
+                    <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
+                    <button type="submit" name="featured_submit"><i class="icon_bag_alt"></i></button>
+                  </form>
                 </li>
                 <li class="quick-view"><a href="#">+ Quick View</a></li>
                 <li class="w-icon">
@@ -45,7 +57,7 @@ sort($categories);
             </div>
             <div class="pi-text">
               <div class="catagory-name"><?= $item['category_name']; ?></div>
-              <a href="#">
+              <a href="product.php?item_id=<?= $item['id']; ?>">
                 <h5><?= $item['name']; ?></h5>
               </a>
               <div class="product-price"><?= $item['price']; ?></div>

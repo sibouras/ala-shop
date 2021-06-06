@@ -8,6 +8,13 @@ $newProducts = $product->getNewData(
   10
 );
 shuffle($newProducts);
+
+// request method post
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_POST['new-products_submit'])) {
+    $cart->insertIntoCart($_POST['user_id'], $_POST['item_id']);
+  }
+}
 ?>
 
 <!-- New Products Section Begin -->
@@ -22,13 +29,19 @@ shuffle($newProducts);
           <?php foreach ($newProducts as $item) : ?>
             <div class="product-item">
               <div class="pi-pic">
-                <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
+                <a href="product.php?item_id=<?= $item['id']; ?>">
+                  <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
+                </a>
                 <div class="icon">
                   <i class="icon_heart_alt"></i>
                 </div>
                 <ul>
                   <li class="w-icon active">
-                    <a href="#"><i class="icon_bag_alt"></i></a>
+                    <form method="POST">
+                      <input type="hidden" name="user_id" value="<?= 1; ?>">
+                      <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
+                      <button type="submit" name="new-products_submit"><i class="icon_bag_alt"></i></button>
+                    </form>
                   </li>
                   <li class="quick-view"><a href="#">+ Quick View</a></li>
                   <li class="w-icon">
@@ -38,7 +51,7 @@ shuffle($newProducts);
               </div>
               <div class="pi-text">
                 <div class="catagory-name"><?= $item['category_name']; ?></div>
-                <a href="#">
+                <a href="product.php?item_id=<?= $item['id']; ?>">
                   <h5><?= $item['name']; ?></h5>
                 </a>
                 <div class="product-price"><?= $item['price']; ?></div>

@@ -165,3 +165,26 @@
 .inner-header .logo img {
   width: 124px;
 }
+
+/*----------------------
+    Add to cart icon
+------------------------*/
+.product-item .pi-pic ul li.w-icon.active button {
+  background: #e7ab3c;
+  color: #ffffff;
+}
+
+.product-item .pi-pic ul li button {
+  font-size: 16px;
+  font-weight: 700;
+  color: #252525;
+  display: block;
+  padding: 16px 11px 12px 11px;
+  border: none;
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1920px) {
+  .product-item .pi-pic ul li button {
+    padding: 16px 12px 12px 11px;
+  }
+}

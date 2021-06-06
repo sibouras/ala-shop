@@ -16,3 +16,6 @@ assets/
 HTML-template/
 layout/img/
 layout/source/
+
+# database
+database/alashop.sql

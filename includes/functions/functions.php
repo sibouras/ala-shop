@@ -28,3 +28,12 @@ function pre_r($value)
   print_r($value);
   echo "</pre>";
 }
+
+// Function to check if item exists in database
+function checkItem($select, $from, $value)
+{
+  global $pdo;
+  $stmt = $pdo->prepare("SELECT $select FROM $from WHERE $select = ?");
+  $stmt->execute([$value]);
+  return $stmt->rowCount();
+}

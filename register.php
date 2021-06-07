@@ -1,11 +1,5 @@
 <?php
 include('includes/templates/header.php');
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//   if (isset($_POST['register_submit'])) {
-//     $user->signup($_POST);
-//   }
-// }
 ?>
 
 <!-- Breadcrumb Section Begin -->
@@ -28,31 +22,35 @@ include('includes/templates/header.php');
   <div class="container">
     <div class="row">
       <div class="col-lg-6 offset-lg-3">
-        <div id="message"></div>
         <div class="register-form">
           <h2>Register</h2>
           <form id="register-form" method="POST">
             <div class="group-input">
               <label for="username">Username *</label>
               <input type="text" id="username" name="username" class="form-data">
+              <div id="name-error" class="text-danger"></div>
             </div>
             <div class="group-input">
               <label for="email">Email *</label>
               <input type="email" id="email" name="email" class="form-data">
+              <div id="email-error" class="text-danger"></div>
             </div>
             <div class="group-input">
               <label for="password">Password *</label>
               <input type="password" id="password" name="password" class="form-data">
+              <div id="password-error" class="text-danger"></div>
             </div>
             <div class="group-input">
-              <label for="con-password">Confirm Password *</label>
-              <input type="password" id="con-password" name="con-password" class="form-data">
+              <label for="password-con">Confirm Password *</label>
+              <input type="password" id="password-con" name="password-con" class="form-data">
+              <div id="password-con-error" class="text-danger"></div>
             </div>
             <button type="submit" id="submit" name="register_submit" class="site-btn register-btn form-data" onclick="saveData();">REGISTER</button>
           </form>
           <div class="switch-login">
-            <a href="./login.php" class="or-login">Or Login</a>
+            <a id="switch-login" href="./login.php" class="or-login">Or Login</a>
           </div>
+          <div id="message" class="pt-2"></div>
         </div>
       </div>
     </div>

@@ -32,9 +32,9 @@ $categories = $product->getData(
 
 <body>
   <!-- Page Preloder -->
-  <div id="preloder">
+  <!-- <div id="preloder">
     <div class="loader"></div>
-  </div>
+  </div> -->
 
   <!-- Header Section Begin -->
   <header class="header-section">
@@ -51,7 +51,7 @@ $categories = $product->getData(
           </div>
         </div>
         <div class="ht-right">
-          <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+          <a href="login.php" class="login-panel"><i class="fa fa-user"></i>Login</a>
           <div class="lan-selector">
             <select class="language_drop" name="countries" id="countries" style="width: 300px">
               <option value="yt" data-image="layout/img/flag-1.jpg" data-imagecss="flag yt" data-title="English">
@@ -195,17 +195,17 @@ $categories = $product->getData(
                 <li><a href="#">Kid's</a></li>
               </ul>
             </li>
-            <li><a href="./blog.html">Blog</a></li>
-            <li><a href="./contact.html">Contact</a></li>
+            <li><a href="./blog.php">Blog</a></li>
+            <li><a href="./contact.php">Contact</a></li>
             <li>
               <a href="#">Pages</a>
               <ul class="dropdown">
                 <li><a href="./product.php">Product Details</a></li>
                 <li><a href="./shopping-cart.php">Shopping Cart</a></li>
-                <li><a href="./check-out.html">Checkout</a></li>
-                <li><a href="./faq.html">Faq</a></li>
-                <li><a href="./register.html">Register</a></li>
-                <li><a href="./login.html">Login</a></li>
+                <li><a href="./check-out.php">Checkout</a></li>
+                <li><a href="./faq.php">Faq</a></li>
+                <li><a href="./register.php">Register</a></li>
+                <li><a href="./login.php">Login</a></li>
               </ul>
             </li>
           </ul>

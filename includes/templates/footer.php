@@ -124,6 +124,7 @@
 <script src="layout/js/owl.carousel.min.js"></script>
 <script src="layout/js/mixitup.min.js"></script>
 <script src="layout/js/main.js"></script>
+<script src="layout/js/script.js"></script>
 </body>
 
 </html>

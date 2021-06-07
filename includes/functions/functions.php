@@ -9,13 +9,18 @@ require('database/Product.php');
 // require Cart class
 require('database/Cart.php');
 
+// require User class
+require('database/User.php');
+
 // product object
 $product = new Product($pdo);
 
 // cart object
 $cart = new Cart($pdo);
 
-// $cart->insertIntoCart(3, 4);
+// user object
+$user = new User($pdo);
+
 
 function pre_r($value)
 {

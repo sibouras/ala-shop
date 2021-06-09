@@ -1,4 +1,5 @@
 <?php
+session_start();
 require('includes/functions/functions.php');
 $categories = $product->getData(
   "SELECT name FROM categories"
@@ -51,7 +52,26 @@ $categories = $product->getData(
           </div>
         </div>
         <div class="ht-right">
-          <a href="login.php" class="login-panel"><i class="fa fa-user"></i>Login</a>
+          <?php if (isset($_SESSION['username'])) : ?>
+            <div id="user-dropdown" class="login-panel">
+              <div class="profile" onclick="menuToggle();">
+                <img src="assets/users/34.jpg" alt="">
+              </div>
+              <div class="menu">
+                <h5><?= $_SESSION['username']; ?></h5>
+                <ul>
+                  <li>
+                    <a href="#"><i class="fa fa-user-o" aria-hidden="true"></i>My Profile</a>
+                  </li>
+                  <li>
+                    <a href="logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          <?php else : ?>
+            <a href="login.php" class="login-panel"><i class="fa fa-user"></i>Login</a>
+          <?php endif; ?>
           <div class="lan-selector">
             <select class="language_drop" name="countries" id="countries" style="width: 300px">
               <option value="yt" data-image="layout/img/flag-1.jpg" data-imagecss="flag yt" data-title="English">
@@ -187,14 +207,6 @@ $categories = $product->getData(
           <ul>
             <li class="active"><a href="./index.php">Home</a></li>
             <li><a href="./shop.php">Shop</a></li>
-            <li>
-              <a href="#">Collection</a>
-              <ul class="dropdown">
-                <li><a href="#">Men's</a></li>
-                <li><a href="#">Women's</a></li>
-                <li><a href="#">Kid's</a></li>
-              </ul>
-            </li>
             <li><a href="./blog.php">Blog</a></li>
             <li><a href="./contact.php">Contact</a></li>
             <li>

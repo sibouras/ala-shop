@@ -34,8 +34,8 @@ class User
     if (empty($password)) {
       $formErrors['password'] = "A Password is required!";
       $formErrors['focus'] = 'password';
-    } else if (strlen($password) < 4) {
-      $formErrors['password'] = "Password can't be less than 4 characters!";
+    } else if (strlen($password) < 3) {
+      $formErrors['password'] = "Password can't be less than 3 characters!";
       $formErrors['focus'] = 'password';
     }
     if (empty($email)) {
@@ -50,6 +50,7 @@ class User
       $formErrors['focus'] = 'username';
     } else if (empty($username)) {
       $formErrors['username'] = 'A Username is required!';
+      $formErrors['focus'] = 'username';
     } else if (strlen($username) < 3) {
       $formErrors['username'] = "Username can't be less than 3 characters!";
       $formErrors['focus'] = 'username';
@@ -59,13 +60,63 @@ class User
       $data = [
         'username' => $username,
         'email' => $email,
-        'password' => $password
+        'password' => hash('sha1', $password)
       ];
 
       $query = "INSERT INTO users(userName, email, password, date) VALUES (:username, :email, :password, now())";
       $stmt = $this->db->prepare($query);
       $stmt->execute($data);
       $formErrors['success'] = "<div class='alert alert-success text-center'>Data saved, You can login now!</div>";
+    }
+
+    // send data to javascript in json format
+    echo json_encode($formErrors);
+  }
+
+  public function login($post)
+  {
+    $username = $post['username'];
+    $password = $post['password'];
+
+    $formErrors = [
+      'username' => '',
+      'password' => '',
+      'focus' => ''
+    ];
+
+    if (empty($password)) {
+      $formErrors['password'] = "A Password is required!";
+      $formErrors['focus'] = 'password';
+    } else if (strlen($password) < 3) {
+      $formErrors['password'] = "Password can't be less than 3 characters!";
+      $formErrors['focus'] = 'password';
+    }
+    if (empty($username)) {
+      $formErrors['username'] = 'A Username is required!';
+      $formErrors['focus'] = 'username';
+    } else if (strlen($username) < 3) {
+      $formErrors['username'] = "Username can't be less than 3 characters!";
+      $formErrors['focus'] = 'username';
+    }
+
+    if (!array_filter($formErrors)) {
+      $data = [
+        'username' => $username,
+        'password' => hash('sha1', $password)
+      ];
+      $query = "SELECT * FROM users WHERE username = :username AND password = :password";
+      $stmt = $this->db->prepare($query);
+      $stmt->execute($data);
+      if ($stmt->rowCount()) {
+        $row = $stmt->fetch();
+        $formErrors['success'] = "<div class='alert alert-success text-center'>Data saved, You can login now!</div>";
+
+        session_start();
+        $_SESSION['userid'] = $row['userID'];
+        $_SESSION['username'] = $row['userName'];
+      } else {
+        $formErrors['wrongCredentials'] = "<div class='alert alert-danger text-center'>Wrong Username or Password!</div>";
+      }
     }
 
     // send data to javascript in json format

@@ -1,6 +1,4 @@
-<?php
-include('includes/templates/header.php');
-?>
+<?php include('includes/templates/header.php'); ?>
 
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
@@ -45,7 +43,7 @@ include('includes/templates/header.php');
               <input type="password" id="password-con" name="password-con" class="form-data">
               <div id="password-con-error" class="text-danger"></div>
             </div>
-            <button type="submit" id="submit" name="register_submit" class="site-btn register-btn form-data" onclick="saveData();">REGISTER</button>
+            <button type="submit" id="submit" name="register_submit" class="site-btn register-btn form-data" onclick="register();">REGISTER</button>
           </form>
           <div class="switch-login">
             <a id="switch-login" href="./login.php" class="or-login">Or Login</a>

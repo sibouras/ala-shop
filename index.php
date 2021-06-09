@@ -1,6 +1,7 @@
 <?php
 ob_start();
 include('includes/templates/header.php');
+print_r($_SESSION);
 ?>
 
 <!-- Hero Section Begin -->

@@ -1,5 +1,12 @@
+const toggleMenu = document.querySelector('#user-dropdown .menu');
+const body = document.querySelector('body');
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.menu') || e.target.localName === 'img') return;
+  if (toggleMenu) {
+    toggleMenu.classList.remove('active');
+  }
+});
 function menuToggle() {
-  const toggleMenu = document.querySelector('#user-dropdown .menu');
   toggleMenu.classList.toggle('active');
 }
 

@@ -112,8 +112,10 @@ class User
         $formErrors['success'] = "<div class='alert alert-success text-center'>Data saved, You can login now!</div>";
 
         session_start();
-        $_SESSION['userid'] = $row['userID'];
-        $_SESSION['username'] = $row['userName'];
+        $_SESSION['userId'] = $row['userID'];
+        if ($row['groupID'] == 1) {
+          $_SESSION['groupId'] = $row['groupID'];
+        }
       } else {
         $formErrors['wrongCredentials'] = "<div class='alert alert-danger text-center'>Wrong Username or Password!</div>";
       }
@@ -121,5 +123,17 @@ class User
 
     // send data to javascript in json format
     echo json_encode($formErrors);
+  }
+
+  public function checkLogin()
+  {
+    if (isset($_SESSION['userId'])) {
+      $query = "SELECT * FROM users WHERE userID = :id";
+      $stmt = $this->db->prepare($query);
+      $stmt->execute(['id' => $_SESSION['userId']]);
+      if ($stmt->rowCount()) {
+        return $stmt->fetch();
+      }
+    }
   }
 }

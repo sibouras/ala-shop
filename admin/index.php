@@ -9,6 +9,17 @@ $pageTitle = 'login';
 
 include 'init.php';
 
+// session from main website
+if (isset($_SESSION['groupId']) && $_SESSION['groupId'] == 1) {
+  $stmt = $pdo->prepare("SELECT userID, username FROM users WHERE groupID = ?");
+  $stmt->execute([$_SESSION['groupId']]);
+  $row = $stmt->fetch();
+  $_SESSION['userId'] = $row['userID'];
+  $_SESSION['username'] = $row['username'];
+  header('Location: dashboard.php');
+  exit();
+}
+
 if (isset($_POST['submit'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
@@ -21,7 +32,7 @@ if (isset($_POST['submit'])) {
   if ($count > 0) {
     $row = $stmt->fetch();
     $_SESSION['username'] = $username;
-    $_SESSION['userid'] = $row['userID'];
+    $_SESSION['userId'] = $row['userID'];
     header('Location: dashboard.php');
     exit();
   }

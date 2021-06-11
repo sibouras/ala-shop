@@ -1,6 +1,6 @@
 <?php
-if (isset($_SESSION['userid'])) {
-  $id =  $_SESSION['userid'];
+if (isset($_SESSION['userId'])) {
+  $id =  $_SESSION['userId'];
   $stmt = $pdo->prepare("SELECT image FROM users WHERE userID = ?");
   $stmt->execute([$id]);
   $image = $stmt->fetchColumn();
@@ -18,7 +18,7 @@ if (isset($_SESSION['userid'])) {
     </button>
 
     <!-- Brand -->
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="../index.php">
       <img src="<?= $img ?>/ala-shop.png" width="84" alt="" loading="lazy" />
     </a>
     <!-- Search form -->
@@ -79,7 +79,7 @@ if (isset($_SESSION['userid'])) {
           <img src="<?= $file; ?>" class="rounded-circle" height="22" alt="" loading="lazy" />
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-          <li><a class="dropdown-item" href="users.php?do=edit&userid=<?= $_SESSION['userid'] ?>">My profile</a></li>
+          <li><a class="dropdown-item" href="users.php?do=edit&userid=<?= $_SESSION['userId'] ?>">My profile</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><a class="dropdown-item" href="logout.php">Logout</a></li>
         </ul>

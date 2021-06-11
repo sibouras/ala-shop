@@ -1,9 +1,17 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+  session_start();
+}
 require('includes/functions/functions.php');
 $categories = $product->getData(
   "SELECT name FROM categories"
 );
+if (is_array($user->checkLogin())) {
+  $userData = $user->checkLogin();
+} else if (isset($_SESSION['userId'])) {
+  // if user is deleted from db logout
+  header('Location: logout.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -52,16 +60,21 @@ $categories = $product->getData(
           </div>
         </div>
         <div class="ht-right">
-          <?php if (isset($_SESSION['username'])) : ?>
+          <?php if (isset($userData)) : ?>
             <div id="user-dropdown" class="login-panel">
               <div class="profile" onclick="menuToggle();">
-                <img src="assets/users/34.jpg" alt="">
+                <img src="assets/users/<?= $userData['image']; ?>" alt="">
               </div>
               <div class="menu">
-                <h5><?= $_SESSION['username']; ?></h5>
+                <h5><?= $userData['userName']; ?></h5>
                 <ul>
+                  <?php if ($userData['groupID'] == 1) : ?>
+                    <li>
+                      <a href="admin/dashboard.php"><i class="fa fa-tachometer" aria-hidden="true"></i>Dashboard</a>
+                    </li>
+                  <?php endif; ?>
                   <li>
-                    <a href="#"><i class="fa fa-user-o" aria-hidden="true"></i>My Profile</a>
+                    <a href="profile.php"><i class="fa fa-user-o" aria-hidden="true"></i>My Profile</a>
                   </li>
                   <li>
                     <a href="logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>

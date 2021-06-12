@@ -97,3 +97,62 @@ function login() {
     }
   };
 }
+
+function updateProfile() {
+  document.getElementById('submit').disabled = true;
+  const formElement = document.querySelectorAll('.form-data');
+  const formData = new FormData();
+  for (let i = 0; i < formElement.length; i++) {
+    formData.append(formElement[i].name, formElement[i].value);
+  }
+  // send file to server
+  const image = document.getElementById('image');
+  formData.append(image.name, image.files[0]);
+  const oldImage = document.getElementById('oldImage');
+  formData.append('oldImage', oldImage.alt);
+  console.log([...formData]);
+
+  let req = new Request('process-data.php', {
+    method: 'POST',
+    body: formData,
+  });
+
+  // fetch(req)
+  //   .then((response) => response.text())
+  //   .then((data) => {
+  //     document.getElementById('submit').disabled = false;
+  //     console.log(data);
+  //   });
+
+  fetch(req)
+    .then((response) => {
+      document.getElementById('submit').disabled = false;
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        // document.getElementById('message').innerHTML = data.success;
+        // setTimeout(() => {
+        //   document.getElementById('message').innerHTML = '';
+        // }, 2000);
+        // document.getElementById('name-error').innerHTML = '';
+        // document.getElementById('email-error').innerHTML = '';
+        // document.getElementById('password-error').innerHTML = '';
+        // document.getElementById('password-con-error').innerHTML = '';
+        // document.getElementById('password').value = '';
+        // document.getElementById('password-con').value = '';
+        window.location.href = 'profile.php';
+      } else {
+        // display validation error
+        document.getElementById('name-error').innerHTML = data.username;
+        document.getElementById('email-error').innerHTML = data.email;
+        document.getElementById('image-error').innerHTML = data.image;
+        document.getElementById('password-error').innerHTML = data.password;
+        document.getElementById('password-con-error').innerHTML =
+          data.passwordCon;
+        if (data.focus != '') {
+          document.getElementById(data.focus).focus();
+        }
+      }
+    });
+}

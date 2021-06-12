@@ -136,4 +136,109 @@ class User
       }
     }
   }
+
+  public function updateProfile()
+  {
+    $userid = $_POST['userid'];
+    $username = $_POST['username'];
+    $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $passwordCon = $_POST['password-con'];
+
+    // Image upload
+    if (isset($_FILES['image'])) {
+      $img = $_FILES['image'];
+      $imageName = $img['name'];
+      $imageSize = $img['size'];
+      $imageTmp = $img['tmp_name'];
+      $allowedExtensions = ['jpeg', 'jpg', 'png', 'gif'];
+
+      if (!empty($imageName)) {
+        $arr = explode('.', $imageName);
+        $imageStart = strtolower(reset($arr));
+        $imageExtension = strtolower(end($arr));
+      }
+    }
+
+
+    $formErrors = [
+      'username' => '',
+      'email' => '',
+      'password' => '',
+      'passwordCon' => '',
+      'image' => '',
+      'focus' => ''
+    ];
+
+    if (empty($password)) {
+      $password = $_POST['oldpassword'];
+    } else if (strlen($password) < 3) {
+      $formErrors['password'] = "Password can't be less than 3 characters!";
+      $formErrors['focus'] = 'password';
+    } else if ($passwordCon !== $password) {
+      $formErrors['passwordCon'] = "Passwords do not match!";
+      $formErrors['focus'] = 'password-con';
+    } else {
+      $password = hash('sha1', $_POST['password']);
+    }
+    if (isset($img)) {
+      if (!in_array($imageExtension, $allowedExtensions)) {
+        $formErrors['image'] = "This extension is not allowed";
+        $formErrors['focus'] = 'image';
+      } else if ($imageSize > 2097152) {
+        $formErrors['image'] = "Image can't be larger than 2mb";
+        $formErrors['focus'] = 'image';
+      }
+    }
+    if (empty($email)) {
+      $formErrors['email'] = "An Email is required!";
+      $formErrors['focus'] = 'email';
+    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $formErrors['email'] = "Email must be a valid email address!";
+      $formErrors['focus'] = 'email';
+    }
+    $stmt = $this->db->prepare("SELECT userID FROM users WHERE userName = ? AND userID != ?");
+    $stmt->execute([$username, $userid]);
+    if ($stmt->rowCount()) {
+      $formErrors['username'] = 'Sorry this user already exists';
+      $formErrors['focus'] = 'username';
+    } else if (empty($username)) {
+      $formErrors['username'] = 'A Username is required!';
+      $formErrors['focus'] = 'username';
+    } else if (strlen($username) < 3) {
+      $formErrors['username'] = "Username can't be less than 3 characters!";
+      $formErrors['focus'] = 'username';
+    }
+
+    if (!array_filter($formErrors)) {
+      $data = [
+        'userid' => $userid,
+        'username' => $username,
+        'fullname' => $fullname,
+        'email' => $email,
+        'password' => $password
+      ];
+
+      $imgQuery = "";
+      if (isset($img)) {
+        $oldImage = $_POST['oldImage'];
+        $default = "uploads/profileImages/default.png";
+        if (file_exists($oldImage) && $oldImage != $default) {
+          unlink($oldImage);
+        }
+        $image = $imageStart . '_' . rand(0, 10000) . '.' . $imageExtension;
+        $data['image'] = $image;
+        move_uploaded_file($imageTmp, "uploads/profileImages/$image");
+
+        $imgQuery = ", image = :image";
+      }
+
+      $query = "UPDATE users SET userName = :username, fullname = :fullname, email = :email, password = :password $imgQuery WHERE userID = :userid";
+      $stmt = $this->db->prepare($query);
+      $stmt->execute($data);
+      $formErrors['success'] = "<div class='alert alert-success text-center'>Profile Updated Successfully!</div>";
+    }
+    echo json_encode($formErrors);
+  }
 }

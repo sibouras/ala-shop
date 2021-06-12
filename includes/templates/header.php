@@ -63,7 +63,7 @@ if (is_array($user->checkLogin())) {
           <?php if (isset($userData)) : ?>
             <div id="user-dropdown" class="login-panel">
               <div class="profile" onclick="menuToggle();">
-                <img src="assets/users/<?= $userData['image']; ?>" alt="">
+                <img src="uploads/profileImages/<?= $userData['image']; ?>" alt="">
               </div>
               <div class="menu">
                 <h5><?= $userData['userName']; ?></h5>

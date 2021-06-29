@@ -2,10 +2,6 @@
 session_start();
 if (isset($_SESSION['userId'])) :
   include('includes/templates/header.php');
-  // if (isset($_POST['profile_submit'])) {
-  //   pre_r($_POST);
-  //   pre_r($_FILES['image']);
-  // }
 ?>
 
   <!-- Breadcrumb Section Begin -->

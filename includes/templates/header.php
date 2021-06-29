@@ -12,6 +12,12 @@ if (is_array($user->checkLogin())) {
   // if user is deleted from db logout
   header('Location: logout.php');
 }
+
+if (empty($_SESSION['cart'])) {
+  $_SESSION['cart'] = [];
+}
+$cart->insertCartSession();
+
 ?>
 
 <!DOCTYPE html>

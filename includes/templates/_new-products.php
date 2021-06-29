@@ -11,7 +11,11 @@ shuffle($newProducts);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['new-products_submit'])) {
-    $cart->insertIntoCart($_POST['user_id'], $_POST['item_id']);
+    if (isset($_SESSION['userId'])) {
+      $cart->insertIntoCart();
+    } else {
+      $_SESSION['cart'][] = $_POST['item_id'];
+    }
   }
 }
 ?>
@@ -37,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <ul>
                   <li class="w-icon active">
                     <form method="POST">
-                      <input type="hidden" name="user_id" value="<?= 1; ?>">
+                      <input type="hidden" name="user_id" value="<?= $_SESSION['userId'] ?? ''; ?>">
                       <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
                       <button type="submit" name="new-products_submit"><i class="icon_bag_alt"></i></button>
                     </form>

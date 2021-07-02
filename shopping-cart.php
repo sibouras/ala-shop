@@ -1,13 +1,13 @@
 <?php
 include('includes/templates/header.php');
 if (isset($_SESSION['userId'])) {
-  $cart = $product->getData(
+  $cartItems = $product->getData(
     "SELECT items.*, user_id FROM items
     INNER JOIN cart ON cart.item_id = items.id AND cart.user_id = $_SESSION[userId]"
   );
 } else if (!empty($_SESSION['cart'])) {
   $whereIn = implode(',', $_SESSION['cart']);
-  $cart = $product->getData(
+  $cartItems = $product->getData(
     "SELECT * FROM items WHERE id IN ($whereIn)"
   );
 }
@@ -52,7 +52,7 @@ if (isset($_SESSION['userId'])) {
                   <th>Cart is empty!</th>
                 </tr>
               <?php else : ?>
-                <?php foreach ($cart as $item) : ?>
+                <?php foreach ($cartItems as $item) : ?>
                   <tr>
                     <td class="cart-pic "><img src="uploads/itemImages/<?= $item['image']; ?>" alt=""></td>
                     <td class="cart-title ">
@@ -69,7 +69,8 @@ if (isset($_SESSION['userId'])) {
                     <td class="total-price ">$60.00</td>
                     <td class="close-td "><i class="ti-close"></i></td>
                   </tr>
-              <?php endforeach;
+              <?php $subTotal[] = $item['price'];
+                endforeach;
               endif; ?>
             </tbody>
           </table>
@@ -91,8 +92,8 @@ if (isset($_SESSION['userId'])) {
           <div class="col-lg-4 offset-lg-4">
             <div class="proceed-checkout">
               <ul>
-                <li class="subtotal">Subtotal <span>$240.00</span></li>
-                <li class="cart-total">Total <span>$240.00</span></li>
+                <li class="subtotal">Subtotal <span>$ <?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
+                <li class="cart-total">Total <span>$ <?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
               </ul>
               <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
             </div>

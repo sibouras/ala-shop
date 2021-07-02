@@ -37,11 +37,22 @@ class Cart
     }
   }
 
-  // Count number of items 
   public function countItems($item = 'id', $table = 'cart')
   {
     $stmt = $this->db->prepare("SELECT COUNT($item) FROM $table WHERE user_id = $_SESSION[userId]");
     $stmt->execute();
     return $stmt->fetchColumn();
+  }
+
+  public function getSum($arr)
+  {
+    if (isset($arr)) {
+      $sum = 0;
+      foreach ($arr as $item) {
+        $item = (float) filter_var($item, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $sum += $item;
+      }
+      return sprintf('%.2f', $sum);
+    }
   }
 }

@@ -2725,7 +2725,8 @@ ol {
 }
 
 .cart-table table tr td.cart-pic {
-  width: 21%;
+  width: 15%;
+  padding: 10px;
 }
 
 .cart-table table tr td.cart-title {

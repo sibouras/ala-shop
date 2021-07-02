@@ -18,6 +18,12 @@ if (empty($_SESSION['cart'])) {
 }
 $cart->insertCartSession();
 
+if (isset($_SESSION['userId'])) {
+  $cartCount = $cart->countItems();
+} else if (!empty($_SESSION['cart'])) {
+  $cartCount = count($_SESSION['cart']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -149,9 +155,9 @@ $cart->insertCartSession();
                 </a>
               </li>
               <li class="cart-icon">
-                <a href="#">
+                <a href="shopping-cart.php">
                   <i class="icon_bag_alt"></i>
-                  <span>3</span>
+                  <span><?= $cartCount ?? 0; ?></span>
                 </a>
                 <div class="cart-hover">
                   <div class="select-items">

@@ -19,7 +19,7 @@ class Product
   }
 
   // fetch last 10 day's records
-  function getNewData($query, $interval)
+  public function getNewData($query, $interval)
   {
     $stmt = $this->db->prepare("$query WHERE add_date >= DATE_SUB(CURDATE(), INTERVAL $interval DAY) LIMIT 10");
     $stmt->execute();

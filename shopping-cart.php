@@ -1,5 +1,7 @@
 <?php
+ob_start();
 include('includes/templates/header.php');
+
 if (isset($_SESSION['userId'])) {
   $cartItems = $product->getData(
     "SELECT items.*, user_id FROM items
@@ -10,6 +12,16 @@ if (isset($_SESSION['userId'])) {
   $cartItems = $product->getData(
     "SELECT * FROM items WHERE id IN ($whereIn)"
   );
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_POST['deleteCart_submit'])) {
+    if (isset($_SESSION['userId'])) {
+      $cart->deleteCart();
+    } else {
+      $cart->deleteCartFromSession();
+    }
+  }
 }
 ?>
 
@@ -67,7 +79,11 @@ if (isset($_SESSION['userId'])) {
                       </div>
                     </td>
                     <td class="total-price ">$60.00</td>
-                    <td class="close-td "><i class="ti-close"></i></td>
+                    <!-- <td class="close-td "><a href="?itemId=<?= $item['id']; ?>"><i class="ti-close"></a></i></td> -->
+                    <form method="post">
+                      <input type="hidden" name="itemId" value="<?= $item['id']; ?>">
+                      <td class="close-td"><button type="submit" name="deleteCart_submit"><i class="ti-close"></i></button></td>
+                    </form>
                   </tr>
               <?php $subTotal[] = $item['price'];
                 endforeach;
@@ -105,4 +121,7 @@ if (isset($_SESSION['userId'])) {
 </section>
 <!-- Shopping Cart Section End -->
 
-<?php include('includes/templates/footer.php'); ?>
+<?php
+include('includes/templates/footer.php');
+ob_end_flush();
+?>

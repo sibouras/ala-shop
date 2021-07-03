@@ -21,7 +21,7 @@ $cart->insertCartSession();
 if (isset($_SESSION['userId'])) {
   $cartCount = $cart->countItems();
 } else if (!empty($_SESSION['cart'])) {
-  $cartCount = count($_SESSION['cart']);
+  $cartCount = count(array_unique($_SESSION['cart']));
 }
 
 ?>

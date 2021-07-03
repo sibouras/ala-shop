@@ -44,6 +44,26 @@ class Cart
     return $stmt->fetchColumn();
   }
 
+  public function deleteCart($table = 'cart')
+  {
+    $stmt = $this->db->prepare("DELETE FROM $table WHERE item_id=$_POST[itemId] AND user_id=$_SESSION[userId]");
+    if ($stmt->execute()) {
+      header("Location: $_SERVER[PHP_SELF]");
+      exit();
+    }
+  }
+
+  public function deleteCartFromSession()
+  {
+    foreach ($_SESSION['cart'] as $key => $item) {
+      if ($item == $_POST['itemId']) {
+        unset($_SESSION['cart'][$key]);
+      }
+    }
+    header("Location: $_SERVER[PHP_SELF]");
+    exit();
+  }
+
   public function getSum($arr)
   {
     if (isset($arr)) {

@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $cart->insertIntoCart();
     } else {
       $_SESSION['cart'][] = $_POST['item_id'];
+      header("Location: $_SERVER[PHP_SELF]");
+      exit();
     }
   }
 }

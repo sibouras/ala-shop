@@ -20,6 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
   }
 }
+
+if (!isset($cartIds)) {
+  if (isset($_SESSION['userId'])) {
+    $cartIds = $cart->getCartIds($product->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
+  } else {
+    $cartIds = $_SESSION['cart'];
+  }
+}
 ?>
 
 <!-- New Products Section Begin -->
@@ -45,7 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <form method="POST">
                       <input type="hidden" name="user_id" value="<?= $_SESSION['userId'] ?? ''; ?>">
                       <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
-                      <button type="submit" name="new-products_submit"><i class="icon_bag_alt"></i></button>
+                      <?php if (in_array($item['id'], $cartIds)) : ?>
+                        <button id="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
+                      <?php else : ?>
+                        <button type="submit" name="new-products_submit"><i class="icon_bag_alt"></i></button>
+                      <?php endif; ?>
                     </form>
                   </li>
                   <li class="quick-view"><a href="#">+ Quick View</a></li>

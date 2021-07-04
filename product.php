@@ -12,6 +12,12 @@ $item = $product->getData(
   "
 );
 $item = $item[0];
+
+if (isset($_SESSION['userId'])) {
+  $cartIds = $cart->getCartIds($product->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
+} else {
+  $cartIds = $_SESSION['cart'];
+}
 ?>
 
 <!-- Breadcrumb Section Begin -->
@@ -126,7 +132,11 @@ $item = $item[0];
                 <div class="pro-qty">
                   <input type="text" value="1" />
                 </div>
-                <a href="#" class="primary-btn pd-cart">Add To Cart</a>
+                <?php if (in_array($item['id'], $cartIds)) : ?>
+                  <a href="#" class="primary-btn pd-cart disable-cart">Add To Cart</a>
+                <?php else : ?>
+                  <a href="#" class="primary-btn pd-cart">Add To Cart</a>
+                <?php endif; ?>
               </div>
               <ul class="pd-tags">
                 <li>

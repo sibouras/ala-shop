@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\type;
+
 class Cart
 {
   public $db;
@@ -22,14 +24,24 @@ class Cart
     }
   }
 
+  public function getData($query)
+  {
+    $stmt = $this->db->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
+
   public function insertCartSession()
   {
     $cart = $_SESSION['cart'];
     if (!empty($cart) && isset($_SESSION['userId'])) {
       $query = "INSERT INTO cart(user_id, item_id, date) VALUES(?, + ?, now())";
       $stmt = $this->db->prepare($query);
-      foreach ($cart as $item) {
-        $stmt->execute([$_SESSION['userId'], $item]);
+      $cartIds = $this->getCartIds($this->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
+      foreach ($cart as $itemId) {
+        if (!in_array($itemId, $cartIds)) {
+          $stmt->execute([$_SESSION['userId'], $itemId]);
+        }
       }
       $_SESSION['cart'] = [];
       header("Location: $_SERVER[PHP_SELF]");
@@ -74,5 +86,16 @@ class Cart
       }
       return sprintf('%.2f', $sum);
     }
+  }
+
+  public function getCartIds($cartArray = [])
+  {
+    if ($cartArray != []) {
+      $cartIds = array_map(function ($value) {
+        return $value['item_id'];
+      }, $cartArray);
+      return $cartIds;
+    }
+    return [];
   }
 }

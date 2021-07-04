@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 ?>
+
 <!-- Featured Section Begin -->
 <section class="featured spad">
   <div class="container">
@@ -52,7 +53,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <form method="POST">
                     <input type="hidden" name="user_id" value="<?= $_SESSION['userId'] ?? ''; ?>">
                     <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
-                    <button type="submit" name="featured_submit"><i class="icon_bag_alt"></i></button>
+                    <?php if (in_array($item['id'], $cartIds)) : ?>
+                      <button id="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
+                    <?php else : ?>
+                      <button type="submit" name="featured_submit"><i class="icon_bag_alt"></i></button>
+                    <?php endif; ?>
                   </form>
                 </li>
                 <li class="quick-view"><a href="#">+ Quick View</a></li>

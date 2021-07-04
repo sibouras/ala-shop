@@ -174,6 +174,19 @@
   color: #ffffff;
 }
 
+.product-item .pi-pic ul li.w-icon.active button#icon_bag_green {
+  background: #6dce35;
+  color: #ffffff;
+}
+
+/* disable cart in product page */
+.product-details .quantity .primary-btn.pd-cart.disable-cart {
+  padding: 14px 70px 10px;
+  background: #6dce35;
+  pointer-events: none;
+  cursor: default;
+}
+
 .product-item .pi-pic ul li button {
   font-size: 16px;
   font-weight: 700;

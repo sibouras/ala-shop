@@ -315,12 +315,55 @@
       var newVal = parseFloat(oldValue) + 1;
     } else {
       // Don't allow decrementing below zero
-      if (oldValue > 0) {
+      if (oldValue > 1) {
         var newVal = parseFloat(oldValue) - 1;
       } else {
-        newVal = 0;
+        newVal = 1;
       }
     }
     $button.parent().find('input').val(newVal);
+
+    var itemId = $button.parent().find('input').data('id');
+    var price = $(`.p-price[data-id=${itemId}]`).data('price');
+    var $total = $(`.total-price[data-id=${itemId}]`);
+    var $subTotal = $('.subtotal span');
+    var $cartTotal = $('.cart-total span');
+
+    $.ajax({
+      type: 'post',
+      url: 'process-data.php',
+      data: { itemId: itemId, qty: newVal },
+      success: function (response) {
+        if (!response.error) {
+          $total.text(
+            '$' +
+              (price * newVal).toLocaleString('en', {
+                minimumFractionDigits: 2,
+              })
+          );
+          $total.attr('data-total', (price * newVal).toFixed(2));
+          var totalArr = [];
+          getTotals(totalArr);
+          $subTotal.text('$' + getSubtotal(totalArr));
+          $cartTotal.text('$' + getSubtotal(totalArr));
+        }
+      },
+    });
+
+    function getTotals(totalArr) {
+      $('#table-body tr').each(function () {
+        var row = $(this);
+        var price = row.find('.total-price').attr('data-total');
+        totalArr.push(parseFloat(price));
+      });
+    }
+
+    function getSubtotal(totalArr) {
+      var sum = 0;
+      totalArr.forEach((price) => {
+        return (sum += price);
+      });
+      return sum.toLocaleString('en', { minimumFractionDigits: 2 });
+    }
   });
 })(jQuery);

@@ -4,7 +4,7 @@ include('includes/templates/header.php');
 
 if (isset($_SESSION['userId'])) {
   $cartItems = $product->getData(
-    "SELECT items.*, user_id FROM items
+    "SELECT items.*, user_id, quantity FROM items
     INNER JOIN cart ON cart.item_id = items.id AND cart.user_id = $_SESSION[userId]"
   );
 } else if (!empty($_SESSION['cart'])) {
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <th><i class="ti-close"></i></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="table-body">
               <?php if (!isset($_SESSION['userId']) && empty($_SESSION['cart'])) : ?>
                 <tr>
                   <th>Cart is empty!</th>
@@ -70,22 +70,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td class="cart-title ">
                       <h5 class="pl-3"><?= $item['name']; ?></h5>
                     </td>
-                    <td class="p-price "><?= $item['price']; ?></td>
+                    <td class="p-price" data-id="<?= $item['id']; ?>" data-price="<?= $item['price']; ?>">$<?= number_format($item['price'], 2); ?></td>
                     <td class="qua-col ">
                       <div class="quantity">
                         <div class="pro-qty">
-                          <input type="text" value="1">
+                          <input type="text" data-id="<?= $item['id'] ?>" value="<?= $item['quantity']; ?>">
                         </div>
                       </div>
                     </td>
-                    <td class="total-price ">$60.00</td>
-                    <!-- <td class="close-td "><a href="?itemId=<?= $item['id']; ?>"><i class="ti-close"></a></i></td> -->
+                    <td class="total-price" data-id="<?= $item['id'] ?>" data-total="<?php echo $item['price'] * $item['quantity']; ?>">$<?= $cart->getTotal($item['price'], $item['quantity']); ?></td>
                     <form method="post">
                       <input type="hidden" name="itemId" value="<?= $item['id']; ?>">
                       <td class="close-td"><button type="submit" name="deleteCart_submit"><i class="ti-close"></i></button></td>
                     </form>
                   </tr>
-              <?php $subTotal[] = $item['price'];
+              <?php $subTotal[] = $cart->getTotal($item['price'], $item['quantity']);
                 endforeach;
               endif; ?>
             </tbody>
@@ -108,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <div class="col-lg-4 offset-lg-4">
             <div class="proceed-checkout">
               <ul>
-                <li class="subtotal">Subtotal <span>$ <?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
-                <li class="cart-total">Total <span>$ <?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
+                <li class="subtotal">Subtotal <span>$<?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
+                <li class="cart-total">Total <span>$<?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
               </ul>
               <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
             </div>

@@ -14,4 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // $_POST as parameter not needed
     $user->updateProfile();
   }
+
+  if (isset($_POST['itemId'])) {
+    $cart->update();
+  }
 }

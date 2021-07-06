@@ -84,11 +84,12 @@ if (isset($_SESSION['userId'])) {
               <div class="pd-desc">
                 <p><?= $item['description']; ?></p>
                 <h4 class="product-price">
-                  <?= $item['price']; ?>
+                  $<?= number_format($item['price'], 2); ?>
                   <span>
                     <?php
-                    $price = (float) filter_var($item['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-                    echo '&' . $price + ($price * 30 / 100);
+                    $price = (float) $item['price'];
+                    $result = $price + ($price * 30 / 100);
+                    echo '&' . number_format($result, 2);
                     ?>
                   </span>
                 </h4>

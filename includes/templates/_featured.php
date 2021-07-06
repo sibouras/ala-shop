@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <a href="product.php?item_id=<?= $item['id']; ?>">
                 <h5><?= $item['name']; ?></h5>
               </a>
-              <div class="product-price"><?= $item['price']; ?></div>
+              <div class="product-price">&<?= number_format($item['price'], 2); ?></div>
             </div>
           </div>
         </div>

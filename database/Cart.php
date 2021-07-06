@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\type;
-
 class Cart
 {
   public $db;
@@ -14,7 +11,7 @@ class Cart
   public function insertIntoCart()
   {
     if (empty($cart) && isset($_SESSION['userId'])) {
-      $query = "INSERT INTO cart(user_id, item_id, date) VALUES(?, ?, now())";
+      $query = "INSERT INTO cart(user_id, item_id) VALUES(?, ?)";
       $stmt = $this->db->prepare($query);
       if ($stmt->execute([$_POST['user_id'], $_POST['item_id']])) {
         // reload page
@@ -76,6 +73,12 @@ class Cart
     exit();
   }
 
+  public function getTotal($price, $quantity)
+  {
+    $total = (float) $price * $quantity;
+    return number_format($total, 2);
+  }
+
   public function getSum($arr)
   {
     if (isset($arr)) {
@@ -84,7 +87,7 @@ class Cart
         $item = (float) filter_var($item, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $sum += $item;
       }
-      return sprintf('%.2f', $sum);
+      return number_format($sum, 2);
     }
   }
 
@@ -97,5 +100,25 @@ class Cart
       return $cartIds;
     }
     return [];
+  }
+
+  public function update()
+  {
+    $output = array('error' => false);
+    $id = $_POST['itemId'];
+    $qty = $_POST['qty'];
+
+    session_start();
+    if (isset($_SESSION['userId'])) {
+      try {
+        $stmt = $this->db->prepare("UPDATE cart SET quantity=:quantity WHERE item_id=:id");
+        $stmt->execute(['quantity' => $qty, 'id' => $id]);
+        $output['message'] = 'Updated';
+      } catch (PDOException $e) {
+        $output['message'] = $e->getMessage();
+      }
+    }
+
+    echo json_encode($output);
   }
 }

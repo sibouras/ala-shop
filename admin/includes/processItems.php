@@ -39,7 +39,7 @@ if (isset($_POST['add'])) {
   } else if (empty($price)) {
     $focus = "#aprice";
     $msg = "Price can't be empty!";
-  } else if (!preg_match('/[\$€]\s?(\d+[\.\s,\dk]+)|(\d+[\.\s,\dk]+)[\$€]/', $price)) {
+  } else if (!preg_match('/^\d{1,7}(?:[.]\d{0,3})?$/', $price)) {
     $focus = "#aprice";
     $msg = "Enter a valid price!";
   } else if (empty($country)) {
@@ -118,7 +118,7 @@ if (isset($_POST['update'])) {
   } else if (empty($price)) {
     $focus = "#price";
     $msg = "Price can't be empty!!";
-  } else if (!preg_match('/[\$€]\s?(\d+[\.\s,\dk]+)|(\d+[\.\s,\dk]+)[\$€]/', $price)) {
+  } else if (!preg_match('/^\d{1,7}(?:[.]\d{0,3})?$/', $price)) {
     $focus = "#price";
     $msg = "Enter a valid price!";
   } else if (empty($country)) {

@@ -8,7 +8,8 @@ if (isset($_SESSION['userId'])) {
     INNER JOIN cart ON cart.item_id = items.id AND cart.user_id = $_SESSION[userId]"
   );
 } else if (!empty($_SESSION['cart'])) {
-  $whereIn = implode(',', $_SESSION['cart']);
+  $cartIds = array_keys($_SESSION['cart']);
+  $whereIn = implode(',', $cartIds);
   $cartItems = $product->getData(
     "SELECT * FROM items WHERE id IN ($whereIn)"
   );
@@ -74,17 +75,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td class="qua-col ">
                       <div class="quantity">
                         <div class="pro-qty">
-                          <input type="text" data-id="<?= $item['id'] ?>" value="<?= $item['quantity']; ?>">
+                          <input type="text" data-id="<?= $item['id'] ?>" value="<?= $item['quantity'] ?? $_SESSION['cart'][$item['id']]; ?>">
                         </div>
                       </div>
                     </td>
-                    <td class="total-price" data-id="<?= $item['id'] ?>" data-total="<?php echo $item['price'] * $item['quantity']; ?>">$<?= $cart->getTotal($item['price'], $item['quantity']); ?></td>
+                    <td class="total-price" data-id="<?= $item['id'] ?>" data-total="<?php echo $item['price'] * ($item['quantity'] ?? $_SESSION['cart'][$item['id']]); ?>">$<?= $cart->getTotal($item['price'], ($item['quantity']) ?? $_SESSION['cart'][$item['id']]); ?></td>
                     <form method="post">
                       <input type="hidden" name="itemId" value="<?= $item['id']; ?>">
                       <td class="close-td"><button type="submit" name="deleteCart_submit"><i class="ti-close"></i></button></td>
                     </form>
                   </tr>
-              <?php $subTotal[] = $cart->getTotal($item['price'], $item['quantity']);
+              <?php $subTotal[] = $cart->getTotal($item['price'], ($item['quantity'] ?? $_SESSION['cart'][$item['id']]));
                 endforeach;
               endif; ?>
             </tbody>

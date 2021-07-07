@@ -16,7 +16,7 @@ $item = $item[0];
 if (isset($_SESSION['userId'])) {
   $cartIds = $cart->getCartIds($product->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
 } else {
-  $cartIds = $_SESSION['cart'];
+  $cartIds = array_keys($_SESSION['cart']);
 }
 ?>
 

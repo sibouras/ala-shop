@@ -21,6 +21,13 @@ class Cart
     }
   }
 
+  public function addCartItemToSession()
+  {
+    $_SESSION['cart'][$_POST['item_id']] = 1;
+    header("Location: $_SERVER[PHP_SELF]");
+    exit();
+  }
+
   public function getData($query)
   {
     $stmt = $this->db->prepare($query);
@@ -32,12 +39,12 @@ class Cart
   {
     $cart = $_SESSION['cart'];
     if (!empty($cart) && isset($_SESSION['userId'])) {
-      $query = "INSERT INTO cart(user_id, item_id, date) VALUES(?, + ?, now())";
+      $query = "INSERT INTO cart(user_id, item_id, quantity, date) VALUES(?, + ?, + ?, now())";
       $stmt = $this->db->prepare($query);
       $cartIds = $this->getCartIds($this->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
-      foreach ($cart as $itemId) {
+      foreach ($cart as $itemId => $quantity) {
         if (!in_array($itemId, $cartIds)) {
-          $stmt->execute([$_SESSION['userId'], $itemId]);
+          $stmt->execute([$_SESSION['userId'], $itemId, $quantity]);
         }
       }
       $_SESSION['cart'] = [];
@@ -48,9 +55,13 @@ class Cart
 
   public function countItems($item = 'id', $table = 'cart')
   {
-    $stmt = $this->db->prepare("SELECT COUNT($item) FROM $table WHERE user_id = $_SESSION[userId]");
-    $stmt->execute();
-    return $stmt->fetchColumn();
+    if (isset($_SESSION['userId'])) {
+      $stmt = $this->db->prepare("SELECT COUNT($item) FROM $table WHERE user_id = $_SESSION[userId]");
+      $stmt->execute();
+      return $stmt->fetchColumn();
+    } else if (!empty($_SESSION['cart'])) {
+      return count($_SESSION['cart']);
+    }
   }
 
   public function deleteCart($table = 'cart')
@@ -65,7 +76,7 @@ class Cart
   public function deleteCartFromSession()
   {
     foreach ($_SESSION['cart'] as $key => $item) {
-      if ($item == $_POST['itemId']) {
+      if ($key == $_POST['itemId']) {
         unset($_SESSION['cart'][$key]);
       }
     }
@@ -117,6 +128,8 @@ class Cart
       } catch (PDOException $e) {
         $output['message'] = $e->getMessage();
       }
+    } else if (!empty($_SESSION['cart'])) {
+      $_SESSION['cart'][$id] = $qty;
     }
 
     echo json_encode($output);

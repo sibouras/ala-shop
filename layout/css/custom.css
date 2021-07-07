@@ -174,7 +174,7 @@
   color: #ffffff;
 }
 
-.product-item .pi-pic ul li.w-icon.active button#icon_bag_green {
+.product-item .pi-pic ul li.w-icon.active button.icon_bag_green {
   background: #6dce35;
   color: #ffffff;
 }

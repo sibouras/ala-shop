@@ -14,9 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_SESSION['userId'])) {
       $cart->insertIntoCart();
     } else {
-      $_SESSION['cart'][] = $_POST['item_id'];
-      header("Location: $_SERVER[PHP_SELF]");
-      exit();
+      $cart->addCartItemToSession();
     }
   }
 }
@@ -25,7 +23,7 @@ if (!isset($cartIds)) {
   if (isset($_SESSION['userId'])) {
     $cartIds = $cart->getCartIds($product->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
   } else {
-    $cartIds = $_SESSION['cart'];
+    $cartIds = array_keys($_SESSION['cart']);
   }
 }
 ?>
@@ -54,7 +52,7 @@ if (!isset($cartIds)) {
                       <input type="hidden" name="user_id" value="<?= $_SESSION['userId'] ?? ''; ?>">
                       <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
                       <?php if (in_array($item['id'], $cartIds)) : ?>
-                        <button id="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
+                        <button class="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
                       <?php else : ?>
                         <button type="submit" name="new-products_submit"><i class="icon_bag_alt"></i></button>
                       <?php endif; ?>

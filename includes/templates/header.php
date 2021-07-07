@@ -18,12 +18,7 @@ if (empty($_SESSION['cart'])) {
 }
 $cart->insertCartSession();
 
-if (isset($_SESSION['userId'])) {
-  $cartCount = $cart->countItems();
-} else if (!empty($_SESSION['cart'])) {
-  $cartCount = count(array_unique($_SESSION['cart']));
-}
-
+$cartCount = $cart->countItems();
 ?>
 
 <!DOCTYPE html>

@@ -335,38 +335,110 @@
       data: { itemId: itemId, qty: newVal },
       success: function (response) {
         if (!response.error) {
-          $total.text(
-            '$' +
-              (price * newVal).toLocaleString('en', {
-                minimumFractionDigits: 2,
-              })
-          );
+          $total.text('$' + formatPrice(price * newVal));
           $total.attr('data-total', (price * newVal).toFixed(2));
           var totalArr = [];
           getTotals(totalArr);
-          $subTotal.text('$' + getSubtotal(totalArr));
-          $cartTotal.text('$' + getSubtotal(totalArr));
+          $subTotal.text('$' + formatPrice(getSubtotal(totalArr)));
+          $subTotal.attr('data-subtotal', getSubtotal(totalArr));
+          $cartTotal.text('$' + formatPrice(getSubtotal(totalArr)));
         }
       },
     });
-
-    function getTotals(totalArr) {
-      $('#table-body tr').each(function () {
-        var row = $(this);
-        var price = row.find('.total-price').attr('data-total');
-        totalArr.push(parseFloat(price));
-      });
-    }
-
-    function getSubtotal(totalArr) {
-      var sum = 0;
-      totalArr.forEach((price) => {
-        return (sum += price);
-      });
-      return sum.toLocaleString('en', { minimumFractionDigits: 2 });
-    }
   });
 
+  function getTotals(totalArr) {
+    $('#table-body tr').each(function () {
+      var row = $(this);
+      var price = row.find('.total-price').attr('data-total');
+      console.log('🚀 ~ price', price);
+      if (price) {
+        totalArr.push(parseFloat(price));
+      }
+    });
+  }
+
+  function getSubtotal(totalArr) {
+    var sum = 0;
+    totalArr.forEach((price) => {
+      return (sum += price);
+    });
+    return sum;
+  }
+
+  function formatPrice(num, digits = 2) {
+    return num.toLocaleString('en-US', { minimumFractionDigits: digits });
+  }
+
+  function unformatPrice(formated) {
+    return parseFloat(formated.replaceAll(',', ''));
+  }
+
+  function calcNewSubTotal(oldSubTotal, rowTotal) {
+    const result = parseFloat(oldSubTotal) - parseFloat(rowTotal);
+    return result.toFixed(2);
+  }
+
+  /*-------------------
+		Delete cart item
+	--------------------- */
+  var closeBtn = $('.delete-cart-item');
+  closeBtn.on('click', function () {
+    var $button = $(this);
+    var itemId = $button.data('id');
+    var rowTotal = $(`.total-price[data-id=${itemId}]`).data('total');
+    var $subTotal = $('.subtotal span');
+    var $cartTotal = $('.cart-total span');
+    // used javascript because jquery stores the first clicked value
+    var subTotalSpan = document.querySelector('.subtotal span');
+    var oldSubTotal = subTotalSpan.dataset.subtotal;
+    var newSubTotal = calcNewSubTotal(oldSubTotal, rowTotal);
+    var cartIcon = $('.cart-icon a span');
+    var NewCartCount = parseInt(cartIcon.text()) - 1;
+
+    $.ajax({
+      type: 'post',
+      url: 'process-data.php',
+      data: { itemId: itemId, deleteCartItem: 'set' },
+      success: function (response) {
+        var row = $button.parent().parent();
+        // removed class because getTotals function searches for it
+        row.find('.total-price').removeClass('total-price');
+        row.hide();
+        $subTotal.text('$' + newSubTotal);
+        $subTotal.attr('data-subtotal', newSubTotal);
+        $cartTotal.text('$' + newSubTotal);
+        cartIcon.text(NewCartCount);
+      },
+    });
+  });
+
+  /*-------------------
+		Empty cart
+	--------------------- */
+  var emptyBtn = $('.empty-cart');
+  emptyBtn.on('click', function () {
+    var tableBody = $('#table-body');
+    var $subTotal = $('.subtotal span');
+    var $cartTotal = $('.cart-total span');
+    var cartIcon = $('.cart-icon a span');
+
+    $.ajax({
+      type: 'post',
+      url: 'process-data.php',
+      data: { emptyCart: 'set' },
+      success: function (response) {
+        tableBody.html('<tr> <th>Cart is empty!</th> </tr>');
+        $subTotal.text('$0');
+        $cartTotal.text('$0');
+        cartIcon.text(0);
+      },
+    });
+  });
+
+  /*-------------------
+		Add item to cart
+	--------------------- */
   var bagBtn = $('.bag-icon');
   bagBtn.on('click', function () {
     var $button = $(this);

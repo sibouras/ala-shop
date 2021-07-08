@@ -21,13 +21,6 @@ class Cart
     }
   }
 
-  public function addCartItemToSession()
-  {
-    $_SESSION['cart'][$_POST['item_id']] = 1;
-    header("Location: $_SERVER[PHP_SELF]");
-    exit();
-  }
-
   public function getData($query)
   {
     $stmt = $this->db->prepare($query);
@@ -64,24 +57,28 @@ class Cart
     }
   }
 
-  public function deleteCart($table = 'cart')
+  public function deleteCartItem()
   {
-    $stmt = $this->db->prepare("DELETE FROM $table WHERE item_id=$_POST[itemId] AND user_id=$_SESSION[userId]");
-    if ($stmt->execute()) {
-      header("Location: $_SERVER[PHP_SELF]");
-      exit();
+    if (isset($_SESSION['userId'])) {
+      $stmt = $this->db->prepare("DELETE FROM cart WHERE item_id=$_POST[itemId] AND user_id=$_SESSION[userId]");
+      $stmt->execute();
+    } else {
+      foreach ($_SESSION['cart'] as $key => $item) {
+        if ($key == $_POST['itemId']) {
+          unset($_SESSION['cart'][$key]);
+        }
+      }
     }
   }
 
-  public function deleteCartFromSession()
+  public function emptyCart()
   {
-    foreach ($_SESSION['cart'] as $key => $item) {
-      if ($key == $_POST['itemId']) {
-        unset($_SESSION['cart'][$key]);
-      }
+    if (isset($_SESSION['userId'])) {
+      $stmt = $this->db->prepare("DELETE FROM cart WHERE user_id=$_SESSION[userId]");
+      $stmt->execute();
+    } else if (!empty($_SESSION['cart'])) {
+      $_SESSION['cart'] = [];
     }
-    header("Location: $_SERVER[PHP_SELF]");
-    exit();
   }
 
   public function getTotal($price, $quantity)
@@ -92,14 +89,12 @@ class Cart
 
   public function getSum($arr)
   {
-    if (isset($arr)) {
-      $sum = 0;
-      foreach ($arr as $item) {
-        $item = (float) filter_var($item, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $sum += $item;
-      }
-      return number_format($sum, 2);
+    $sum = 0;
+    foreach ($arr as $item) {
+      $item = (float) filter_var($item, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+      $sum += $item;
     }
+    return $sum;
   }
 
   public function getCartIds($cartArray = [])

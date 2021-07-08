@@ -19,8 +19,6 @@ if (empty($_SESSION['cart'])) {
 $cart->insertCartSession();
 
 $cartCount = $cart->countItems();
-
-pre_r($_SESSION['cart']);
 ?>
 
 <!DOCTYPE html>

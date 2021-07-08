@@ -353,13 +353,3 @@
   border: 0;
   margin-bottom: 1rem;
 }
-
-/*----------------------
-    Cart Page
-------------------------*/
-.cart-table table tr td.close-td button {
-  /* color: #252525; */
-  background: transparent;
-  /* outline: none; */
-  border: none;
-}

@@ -1,5 +1,4 @@
 <?php
-ob_start();
 include('includes/templates/header.php');
 
 if (isset($_SESSION['userId'])) {
@@ -13,16 +12,6 @@ if (isset($_SESSION['userId'])) {
   $cartItems = $product->getData(
     "SELECT * FROM items WHERE id IN ($whereIn)"
   );
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  if (isset($_POST['deleteCart_submit'])) {
-    if (isset($_SESSION['userId'])) {
-      $cart->deleteCart();
-    } else {
-      $cart->deleteCartFromSession();
-    }
-  }
 }
 ?>
 
@@ -75,15 +64,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td class="qua-col ">
                       <div class="quantity">
                         <div class="pro-qty">
-                          <input type="text" data-id="<?= $item['id'] ?>" value="<?= $item['quantity'] ?? $_SESSION['cart'][$item['id']]; ?>">
+                          <input type="text" data-id="<?= $item['id']; ?>" value="<?= $item['quantity'] ?? $_SESSION['cart'][$item['id']]; ?>">
                         </div>
                       </div>
                     </td>
-                    <td class="total-price" data-id="<?= $item['id'] ?>" data-total="<?php echo $item['price'] * ($item['quantity'] ?? $_SESSION['cart'][$item['id']]); ?>">$<?= $cart->getTotal($item['price'], ($item['quantity']) ?? $_SESSION['cart'][$item['id']]); ?></td>
-                    <form method="post">
-                      <input type="hidden" name="itemId" value="<?= $item['id']; ?>">
-                      <td class="close-td"><button type="submit" name="deleteCart_submit"><i class="ti-close"></i></button></td>
-                    </form>
+                    <td class="total-price" data-id="<?= $item['id']; ?>" data-total="<?php echo $item['price'] * ($item['quantity'] ?? $_SESSION['cart'][$item['id']]); ?>">$<?= $cart->getTotal($item['price'], ($item['quantity']) ?? $_SESSION['cart'][$item['id']]); ?></td>
+                    <td class="close-td"><i class="ti-close delete-cart-item" data-id="<?= $item['id']; ?>"></i></td>
                   </tr>
               <?php $subTotal[] = $cart->getTotal($item['price'], ($item['quantity'] ?? $_SESSION['cart'][$item['id']]));
                 endforeach;
@@ -94,8 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="row">
           <div class="col-lg-4">
             <div class="cart-buttons">
-              <a href="#" class="primary-btn continue-shop">Continue shopping</a>
-              <a href="#" class="primary-btn up-cart">Update cart</a>
+              <a href="shop.php" class="primary-btn continue-shop">Continue shopping</a>
+              <button class="primary-btn empty-cart">Empty cart</button>
             </div>
             <div class="discount-coupon">
               <h6>Discount Codes</h6>
@@ -108,8 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <div class="col-lg-4 offset-lg-4">
             <div class="proceed-checkout">
               <ul>
-                <li class="subtotal">Subtotal <span>$<?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
-                <li class="cart-total">Total <span>$<?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?></span></li>
+                <li class="subtotal">Subtotal <span data-subtotal="<?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?>">$<?= isset($subTotal) ? number_format($cart->getSum($subTotal), 2) : 0; ?></span></li>
+                <li class="cart-total">Total <span>$<?= isset($subTotal) ? number_format($cart->getSum($subTotal), 2) : 0; ?></span></li>
               </ul>
               <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
             </div>
@@ -123,5 +109,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php
 include('includes/templates/footer.php');
-ob_end_flush();
 ?>

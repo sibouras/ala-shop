@@ -1,5 +1,4 @@
 <?php
-ob_start();
 include('includes/templates/header.php');
 
 $item_id = $_GET['item_id'] ?? 1;
@@ -346,5 +345,4 @@ if (isset($_SESSION['userId'])) {
 
 <?php
 include('includes/templates/footer.php');
-ob_end_flush();
 ?>

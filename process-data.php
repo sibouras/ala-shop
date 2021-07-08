@@ -22,6 +22,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cart->update();
   }
 
+  if (isset($_POST['deleteCartItem'])) {
+    $cart->deleteCartItem();
+  }
+
+  if (isset($_POST['emptyCart'])) {
+    $cart->emptyCart();
+  }
+
   if (isset($_POST['bag'])) {
     $cart->insertIntoCart();
   }

@@ -366,4 +366,25 @@
       return sum.toLocaleString('en', { minimumFractionDigits: 2 });
     }
   });
+
+  var bagBtn = $('.bag-icon');
+  bagBtn.on('click', function () {
+    var $button = $(this);
+    var itemId = $button.data('itemid');
+    var userId = $button.data('userid');
+    var bagIcons = $(`.bag-icon[data-itemid='${itemId}']`);
+    var cartIcon = $('.cart-icon a span');
+    var NewCartCount = parseInt(cartIcon.text()) + 1;
+
+    $.ajax({
+      type: 'post',
+      url: 'process-data.php',
+      data: { itemId: itemId, userId: userId, bag: 'insert' },
+      success: function (response) {
+        bagIcons.addClass('icon_bag_green');
+        bagIcons.attr('disabled', true);
+        cartIcon.text(NewCartCount);
+      },
+    });
+  });
 })(jQuery);

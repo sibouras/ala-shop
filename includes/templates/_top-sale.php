@@ -8,16 +8,6 @@ $products = $product->getData(
 );
 shuffle($products);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  if (isset($_POST['top-sale_submit'])) {
-    if (isset($_SESSION['userId'])) {
-      $cart->insertIntoCart();
-    } else {
-      $cart->addCartItemToSession();
-    }
-  }
-}
-
 if (isset($_SESSION['userId'])) {
   $cartIds = $cart->getCartIds($product->getData("SELECT * FROM cart WHERE user_id=$_SESSION[userId]"));
 } else {
@@ -46,15 +36,11 @@ if (isset($_SESSION['userId'])) {
                 </div>
                 <ul>
                   <li class="w-icon active">
-                    <form method="POST">
-                      <input type="hidden" name="user_id" value="<?= $_SESSION['userId'] ?? ''; ?>">
-                      <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
-                      <?php if (in_array($item['id'], $cartIds)) : ?>
-                        <button class="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
-                      <?php else : ?>
-                        <button type="submit" name="top-sale_submit"><i class="icon_bag_alt"></i></button>
-                      <?php endif; ?>
-                    </form>
+                    <?php if (in_array($item['id'], $cartIds)) : ?>
+                      <button class="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
+                    <?php else : ?>
+                      <button type="button" class="bag-icon" data-itemid="<?= $item['id']; ?>" data-userid="<?= $_SESSION['userId'] ?? ''; ?>"><i class="icon_bag_alt"></i></button>
+                    <?php endif; ?>
                   </li>
                   <li class="quick-view"><a href="#">+ Quick View</a></li>
                   <li class="w-icon">

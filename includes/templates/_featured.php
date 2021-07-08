@@ -5,16 +5,6 @@ $categories = array_map(function ($product) {
 }, $products);
 $categories = array_unique($categories);
 sort($categories);
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  if (isset($_POST['featured_submit'])) {
-    if (isset($_SESSION['userId'])) {
-      $cart->insertIntoCart();
-    } else {
-      $cart->addCartItemToSession();
-    }
-  }
-}
 ?>
 
 <!-- Featured Section Begin -->
@@ -48,15 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               </div>
               <ul>
                 <li class="w-icon active">
-                  <form method="POST">
-                    <input type="hidden" name="user_id" value="<?= $_SESSION['userId'] ?? ''; ?>">
-                    <input type="hidden" name="item_id" value="<?= $item['id'] ?? ''; ?>">
-                    <?php if (in_array($item['id'], $cartIds)) : ?>
-                      <button class="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
-                    <?php else : ?>
-                      <button type="submit" name="featured_submit"><i class="icon_bag_alt"></i></button>
-                    <?php endif; ?>
-                  </form>
+                  <?php if (in_array($item['id'], $cartIds)) : ?>
+                    <button class="icon_bag_green" disabled><i class="icon_bag_alt"></i></button>
+                  <?php else : ?>
+                    <button type="button" class="bag-icon" data-itemid="<?= $item['id']; ?>" data-userid="<?= $_SESSION['userId'] ?? ''; ?>"><i class="icon_bag_alt"></i></button>
+                  <?php endif; ?>
                 </li>
                 <li class="quick-view"><a href="#">+ Quick View</a></li>
                 <li class="w-icon">

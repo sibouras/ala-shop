@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION)) {
+  session_start();
+}
 require('includes/functions/functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,7 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user->updateProfile();
   }
 
-  if (isset($_POST['itemId'])) {
+  if (isset($_POST['qty'])) {
     $cart->update();
+  }
+
+  if (isset($_POST['bag'])) {
+    $cart->insertIntoCart();
   }
 }

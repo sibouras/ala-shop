@@ -10,14 +10,14 @@ class Cart
 
   public function insertIntoCart()
   {
-    if (empty($cart) && isset($_SESSION['userId'])) {
+    $itemId = $_POST['itemId'];
+    $userId = $_POST['userId'];
+    if (isset($_SESSION['userId'])) {
       $query = "INSERT INTO cart(user_id, item_id) VALUES(?, ?)";
       $stmt = $this->db->prepare($query);
-      if ($stmt->execute([$_POST['user_id'], $_POST['item_id']])) {
-        // reload page
-        header("Location: $_SERVER[PHP_SELF]");
-        exit();
-      }
+      $stmt->execute([$userId, $itemId]);
+    } else {
+      $_SESSION['cart'][$itemId] = 1;
     }
   }
 
@@ -119,7 +119,6 @@ class Cart
     $id = $_POST['itemId'];
     $qty = $_POST['qty'];
 
-    session_start();
     if (isset($_SESSION['userId'])) {
       try {
         $stmt = $this->db->prepare("UPDATE cart SET quantity=:quantity WHERE item_id=:id");

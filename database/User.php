@@ -111,7 +111,6 @@ class User
         $row = $stmt->fetch();
         $formErrors['success'] = "<div class='alert alert-success text-center'>Data saved, You can login now!</div>";
 
-        session_start();
         $_SESSION['userId'] = $row['userID'];
         if ($row['groupID'] == 1) {
           $_SESSION['groupId'] = $row['groupID'];

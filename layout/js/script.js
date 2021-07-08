@@ -110,7 +110,7 @@ function updateProfile() {
   formData.append(image.name, image.files[0]);
   const oldImage = document.getElementById('oldImage');
   formData.append('oldImage', oldImage.alt);
-  console.log([...formData]);
+  // console.log([...formData]);
 
   let req = new Request('process-data.php', {
     method: 'POST',

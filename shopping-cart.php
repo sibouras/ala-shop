@@ -1,4 +1,5 @@
 <?php
+$pageTitle = 'Cart';
 include('includes/templates/header.php');
 
 if (isset($_SESSION['userId'])) {

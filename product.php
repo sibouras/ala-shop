@@ -1,4 +1,5 @@
 <?php
+$pageTitle = 'Details';
 include('includes/templates/header.php');
 
 $item_id = $_GET['item_id'] ?? 1;

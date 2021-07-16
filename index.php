@@ -1,5 +1,6 @@
 <?php
 ob_start();
+$pageTitle = 'Home';
 include('includes/templates/header.php');
 ?>
 

@@ -28,7 +28,7 @@ $cartCount = $cart->countItems();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>AlaShop | Home</title>
+  <title>AlaShop | <?= getTitle(); ?></title>
 
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
@@ -225,10 +225,10 @@ $cartCount = $cart->countItems();
         </div>
         <nav class="nav-menu mobile-menu">
           <ul>
-            <li class="active"><a href="./index.php">Home</a></li>
-            <li><a href="./shop.php">Shop</a></li>
-            <li><a href="./blog.php">Blog</a></li>
-            <li><a href="./contact.php">Contact</a></li>
+            <li class="<?= active('index.php'); ?>"><a href="./index.php">Home</a></li>
+            <li class="<?= active('shop.php'); ?>"><a href="./shop.php">Shop</a></li>
+            <li class="<?= active('blog.php'); ?>"><a href="./blog.php">Blog</a></li>
+            <li class="<?= active('contact.php'); ?>"><a href="./contact.php">Contact</a></li>
             <li>
               <a href="#">Pages</a>
               <ul class="dropdown">

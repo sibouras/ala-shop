@@ -1,5 +1,6 @@
 <?php
 ob_start();
+$pageTitle = 'Order';
 include('includes/templates/header.php');
 
 if (isset($_POST['submit'])) {

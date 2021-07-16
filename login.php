@@ -1,4 +1,7 @@
-<?php include('includes/templates/header.php'); ?>
+<?php
+$pageTitle = 'Login';
+include('includes/templates/header.php');
+?>
 
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">

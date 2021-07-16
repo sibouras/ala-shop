@@ -1,4 +1,6 @@
-<?php include('includes/templates/header.php');
+<?php
+$pageTitle = 'Checkout';
+include('includes/templates/header.php');
 
 $cartItems = $product->getData(
   "SELECT items.id, items.name, items.price, user_id, quantity FROM items

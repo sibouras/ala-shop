@@ -1,4 +1,7 @@
-<?php include('includes/templates/header.php'); ?>
+<?php
+$pageTitle = 'Shop';
+include('includes/templates/header.php');
+?>
 
 <!-- Breadcrumb Section Begin -->
 <div class="breacrumb-section">
@@ -6,7 +9,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="breadcrumb-text">
-          <a href="#"><i class="fa fa-home"></i> Home</a>
+          <a href="index.php"><i class="fa fa-home"></i> Home</a>
           <span>Shop</span>
         </div>
       </div>

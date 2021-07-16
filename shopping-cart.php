@@ -45,7 +45,7 @@ if (isset($_SESSION['userId'])) {
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
-                <th><i class="ti-close"></i></th>
+                <th class="empty-cart"><i class="ti-close"></i></th>
               </tr>
             </thead>
             <tbody id="table-body">
@@ -97,7 +97,11 @@ if (isset($_SESSION['userId'])) {
                 <li class="subtotal">Subtotal <span data-subtotal="<?= isset($subTotal) ? $cart->getSum($subTotal) : 0; ?>">$<?= isset($subTotal) ? number_format($cart->getSum($subTotal), 2) : 0; ?></span></li>
                 <li class="cart-total">Total <span>$<?= isset($subTotal) ? number_format($cart->getSum($subTotal), 2) : 0; ?></span></li>
               </ul>
-              <a href="#" class="proceed-btn">PROCEED TO CHECK OUT</a>
+              <?php if (isset($_SESSION['userId'])) : ?>
+                <a href="checkout.php" class="proceed-btn">PROCEED TO CHECK OUT</a>
+              <?php else : ?>
+                <a href="login.php" class="proceed-btn">LOGIN TO CHECK OUT</a>
+              <?php endif; ?>
             </div>
           </div>
         </div>
@@ -107,6 +111,4 @@ if (isset($_SESSION['userId'])) {
 </section>
 <!-- Shopping Cart Section End -->
 
-<?php
-include('includes/templates/footer.php');
-?>
+<?php include('includes/templates/footer.php'); ?>

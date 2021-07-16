@@ -428,7 +428,7 @@
       url: 'process-data.php',
       data: { emptyCart: 'set' },
       success: function (response) {
-        tableBody.html('<tr> <th>Cart is empty!</th> </tr>');
+        tableBody.html('');
         $subTotal.text('$0');
         $cartTotal.text('$0');
         cartIcon.text(0);

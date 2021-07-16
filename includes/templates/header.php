@@ -146,7 +146,7 @@ $cartCount = $cart->countItems();
               <li class="heart-icon">
                 <a href="#">
                   <i class="icon_heart_alt"></i>
-                  <span>1</span>
+                  <span>0</span>
                 </a>
               </li>
               <li class="cart-icon">
@@ -154,52 +154,7 @@ $cartCount = $cart->countItems();
                   <i class="icon_bag_alt"></i>
                   <span><?= $cartCount ?? 0; ?></span>
                 </a>
-                <div class="cart-hover">
-                  <div class="select-items">
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td class="si-pic">
-                            <img src="layout/img/select-product-1.jpg" alt="" />
-                          </td>
-                          <td class="si-text">
-                            <div class="product-selected">
-                              <p>$60.00 x 1</p>
-                              <h6>Kabino Bedside Table</h6>
-                            </div>
-                          </td>
-                          <td class="si-close">
-                            <i class="ti-close"></i>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="si-pic">
-                            <img src="layout/img/select-product-2.jpg" alt="" />
-                          </td>
-                          <td class="si-text">
-                            <div class="product-selected">
-                              <p>$60.00 x 1</p>
-                              <h6>Kabino Bedside Table</h6>
-                            </div>
-                          </td>
-                          <td class="si-close">
-                            <i class="ti-close"></i>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="select-total">
-                    <span>total:</span>
-                    <h5>$120.00</h5>
-                  </div>
-                  <div class="select-button">
-                    <a href="#" class="primary-btn view-card">VIEW CARD</a>
-                    <a href="#" class="primary-btn checkout-btn">CHECK OUT</a>
-                  </div>
-                </div>
               </li>
-              <li class="cart-price">$150.00</li>
             </ul>
           </div>
         </div>
@@ -212,14 +167,9 @@ $cartCount = $cart->countItems();
             <i class="ti-menu"></i>
             <span>All departments</span>
             <ul class="depart-hover">
-              <li class="active"><a href="#">Women’s Clothing</a></li>
-              <li><a href="#">Men’s Clothing</a></li>
-              <li><a href="#">Underwear</a></li>
-              <li><a href="#">Kid's Clothing</a></li>
-              <li><a href="#">Brand Fashion</a></li>
-              <li><a href="#">Accessories/Shoes</a></li>
-              <li><a href="#">Luxury Brands</a></li>
-              <li><a href="#">Brand Outdoor Apparel</a></li>
+              <?php foreach ($categories as $cat) : ?>
+                <li><a href="#"><?= $cat['name']; ?></a></li>
+              <?php endforeach; ?>
             </ul>
           </div>
         </div>
@@ -227,19 +177,9 @@ $cartCount = $cart->countItems();
           <ul>
             <li class="<?= active('index.php'); ?>"><a href="./index.php">Home</a></li>
             <li class="<?= active('shop.php'); ?>"><a href="./shop.php">Shop</a></li>
-            <li class="<?= active('blog.php'); ?>"><a href="./blog.php">Blog</a></li>
+            <li class="<?= active('shopping-cart.php'); ?>"><a href="./shopping-cart.php">Cart</a></li>
             <li class="<?= active('contact.php'); ?>"><a href="./contact.php">Contact</a></li>
-            <li>
-              <a href="#">Pages</a>
-              <ul class="dropdown">
-                <li><a href="./product.php">Product Details</a></li>
-                <li><a href="./shopping-cart.php">Shopping Cart</a></li>
-                <li><a href="./check-out.php">Checkout</a></li>
-                <li><a href="./faq.php">Faq</a></li>
-                <li><a href="./register.php">Register</a></li>
-                <li><a href="./login.php">Login</a></li>
-              </ul>
-            </li>
+            <li class="<?= active('faq.php'); ?>"><a href="./faq.php">FAQ</a></li>
           </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>

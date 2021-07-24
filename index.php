@@ -11,7 +11,7 @@ include('includes/templates/header.php');
       <div class="container">
         <div class="row">
           <div class="col-lg-5">
-            <span>Bag,kids</span>
+            <span>Consoles</span>
             <h1>Black friday</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
@@ -29,7 +29,25 @@ include('includes/templates/header.php');
       <div class="container">
         <div class="row">
           <div class="col-lg-5">
-            <span>Bag,kids</span>
+            <span>VR Headsets</span>
+            <h1>Black friday</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+              do eiusmod tempor incididunt ut labore et dolore
+            </p>
+            <a href="#" class="primary-btn">Shop Now</a>
+          </div>
+        </div>
+        <div class="off-card">
+          <h2>Sale <span>50%</span></h2>
+        </div>
+      </div>
+    </div>
+    <div class="single-hero-items set-bg" data-setbg="layout/img/hero-3.jpg">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5">
+            <span>Computers</span>
             <h1>Black friday</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
@@ -55,7 +73,7 @@ include('includes/templates/header.php');
         <div class="single-banner">
           <img src="layout/img/banner-1.jpg" alt="" />
           <div class="inner-text">
-            <h4>Men’s</h4>
+            <h4>Desktops</h4>
           </div>
         </div>
       </div>
@@ -63,15 +81,15 @@ include('includes/templates/header.php');
         <div class="single-banner">
           <img src="layout/img/banner-2.jpg" alt="" />
           <div class="inner-text">
-            <h4>Women’s</h4>
+            <h4>Laptops</h4>
           </div>
         </div>
       </div>
       <div class="col-lg-4">
         <div class="single-banner">
-          <img src="layout/img/banner-3.jpg" alt="" />
+          <img src="layout/img/banner-3.png" alt="" />
           <div class="inner-text">
-            <h4>Kid’s</h4>
+            <h4>Accessories</h4>
           </div>
         </div>
       </div>
@@ -117,7 +135,7 @@ include('includes/templates/header.php');
           <p>Secs</p>
         </div>
       </div>
-      <a href="#" class="primary-btn">Shop Now</a>
+      <a href="shop.php" class="primary-btn">Shop Now</a>
     </div>
   </div>
 </section>
@@ -127,25 +145,6 @@ include('includes/templates/header.php');
 <?php include('includes/templates/_featured.php'); ?>
 <!-- Featured Section End -->
 
-<!-- Ads Banner Begin -->
-<div class="banner my-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="banner__pic">
-          <img src="layout/img/banner/banner-1.jpg" alt="" />
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <div class="banner__pic">
-          <img src="layout/img/banner/banner-2.jpg" alt="" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Ads Banner End -->
-
 <!-- New Products Section Begin -->
 <?php include('includes/templates/_new-products.php'); ?>
 <!-- New Products Section End -->
@@ -154,7 +153,7 @@ include('includes/templates/header.php');
 <!-- Instagram Section End -->
 
 <!-- Latest Blog Section Begin -->
-<?php include('includes/templates/_blog.php'); ?>
+<?php include('includes/templates/benefit.php'); ?>
 <!-- Latest Blog Section End -->
 
 <?php

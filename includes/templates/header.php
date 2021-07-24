@@ -117,7 +117,7 @@ $cartCount = $cart->countItems();
           <div class="col-lg-2 col-md-2">
             <div class="logo">
               <a href="./index.php">
-                <img src="layout/img/ala-shop-2.png" alt="" />
+                <img src="layout/img/ala-shop-3.png" alt="" />
               </a>
             </div>
           </div>

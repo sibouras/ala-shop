@@ -54,14 +54,11 @@ if (isset($_SESSION['userId'])) {
                 <div class="pt active" data-imgbigurl="uploads/itemImages/<?= $item['image']; ?>">
                   <img src="uploads/itemImages/<?= $item['image']; ?>" alt="" />
                 </div>
-                <div class="pt" data-imgbigurl="layout/img/product-single/product-2.jpg">
-                  <img src="layout/img/product-single/product-2.jpg" alt="" />
+                <div class="pt" data-imgbigurl="layout/img/product-single/image-not-available.png">
+                  <img src="layout/img/product-single/image-not-available.png" alt="" />
                 </div>
-                <div class="pt" data-imgbigurl="layout/img/product-single/product-3.jpg">
-                  <img src="layout/img/product-single/product-3.jpg" alt="" />
-                </div>
-                <div class="pt" data-imgbigurl="layout/img/product-single/product-3.jpg">
-                  <img src="layout/img/product-single/product-3.jpg" alt="" />
+                <div class="pt" data-imgbigurl="layout/img/product-single/image-not-available.png">
+                  <img src="layout/img/product-single/image-not-available.png" alt="" />
                 </div>
               </div>
             </div>
@@ -111,24 +108,6 @@ if (isset($_SESSION['userId'])) {
                   </div>
                 </div>
               </div>
-              <div class="pd-size-choose">
-                <div class="sc-item">
-                  <input type="radio" id="sm-size" />
-                  <label for="sm-size">s</label>
-                </div>
-                <div class="sc-item">
-                  <input type="radio" id="md-size" />
-                  <label for="md-size">m</label>
-                </div>
-                <div class="sc-item">
-                  <input type="radio" id="lg-size" />
-                  <label for="lg-size">l</label>
-                </div>
-                <div class="sc-item">
-                  <input type="radio" id="xl-size" />
-                  <label for="xl-size">xs</label>
-                </div>
-              </div>
               <div class="quantity">
                 <div class="pro-qty">
                   <input type="text" value="1" />
@@ -143,7 +122,7 @@ if (isset($_SESSION['userId'])) {
                 <li>
                   <span>CATEGORIES</span>: More Accessories, Wallets & Cases
                 </li>
-                <li><span>TAGS</span>: Clothing, T-shirt, Woman</li>
+                <li><span>TAGS</span>: Gaming, Powerful, Ergonomic</li>
               </ul>
               <div class="pd-share">
                 <div class="p-code">Sku : 00012</div>
@@ -194,7 +173,7 @@ if (isset($_SESSION['userId'])) {
                       </p>
                     </div>
                     <div class="col-lg-5">
-                      <img src="layout/img/product-single/tab-desc.jpg" alt="" />
+                      <img src="layout/img/product-single/tab-desc-1.jpg" alt="" />
                     </div>
                   </div>
                 </div>

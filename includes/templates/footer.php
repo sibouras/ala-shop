@@ -1,37 +1,3 @@
-<!-- Partner Logo Section Begin -->
-<div class="partner-logo">
-  <div class="container">
-    <div class="logo-carousel owl-carousel">
-      <div class="logo-item">
-        <div class="tablecell-inner">
-          <img src="layout/img/logo-carousel/logo-1.png" alt="" />
-        </div>
-      </div>
-      <div class="logo-item">
-        <div class="tablecell-inner">
-          <img src="layout/img/logo-carousel/logo-2.png" alt="" />
-        </div>
-      </div>
-      <div class="logo-item">
-        <div class="tablecell-inner">
-          <img src="layout/img/logo-carousel/logo-3.png" alt="" />
-        </div>
-      </div>
-      <div class="logo-item">
-        <div class="tablecell-inner">
-          <img src="layout/img/logo-carousel/logo-4.png" alt="" />
-        </div>
-      </div>
-      <div class="logo-item">
-        <div class="tablecell-inner">
-          <img src="layout/img/logo-carousel/logo-5.png" alt="" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Partner Logo Section End -->
-
 <!-- Footer Section Begin -->
 <footer class="footer-section">
   <div class="container">
@@ -39,7 +5,7 @@
       <div class="col-lg-3">
         <div class="footer-left">
           <div class="footer-logo">
-            <a href="#"><img src="layout/img/footer-logo.png" alt="" /></a>
+            <a href="#"><img src="layout/img/ala-shop-3.png" alt="" width="120px" /></a>
           </div>
           <ul>
             <li>Address: 60-49 Road 11378 Bizerte</li>

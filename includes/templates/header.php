@@ -123,18 +123,14 @@ $cartCount = $cart->countItems();
           </div>
           <div class="col-lg-7 col-md-7">
             <div class="advanced-search">
-              <div class="nice-select" tabindex="0">
-                <span class="current">All Categories</span>
+              <div class="nice-select" tabindex="0"><span class="current">All Categories</span>
                 <ul class="list">
-                  <li><a href="#">All Categories</a></li>
+                  <li data-value="" class="option focus selected">All Categories</li>
                   <?php foreach ($categories as $cat) : ?>
-                    <li><a href="#"><?= $cat['name']; ?></a></li>
+                    <li class="option focus"><?= $cat['name']; ?></li>
                   <?php endforeach; ?>
                 </ul>
               </div>
-              <!-- <button type="button" class="category-btn">
-                  All Categories
-                </button> -->
               <div class="input-group">
                 <input type="text" placeholder="What do you need?" />
                 <button type="button"><i class="ti-search"></i></button>
@@ -168,7 +164,7 @@ $cartCount = $cart->countItems();
             <span>All departments</span>
             <ul class="depart-hover">
               <?php foreach ($categories as $cat) : ?>
-                <li><a href="#"><?= $cat['name']; ?></a></li>
+                <li><a href="shop.php?category=<?= $cat['name']; ?>"><?= $cat['name']; ?></a></li>
               <?php endforeach; ?>
             </ul>
           </div>

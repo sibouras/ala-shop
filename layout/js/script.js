@@ -1,13 +1,12 @@
-const toggleMenu = document.querySelector('#user-dropdown .menu');
-const body = document.querySelector('body');
-document.addEventListener('click', (e) => {
+const profileMenu = document.querySelector('#user-dropdown .menu');
+document.body.addEventListener('click', (e) => {
   if (e.target.closest('.menu') || e.target.localName === 'img') return;
-  if (toggleMenu) {
-    toggleMenu.classList.remove('active');
+  if (profileMenu.classList.contains('active')) {
+    profileMenu.classList.remove('active');
   }
 });
 function menuToggle() {
-  toggleMenu.classList.toggle('active');
+  profileMenu.classList.toggle('active');
 }
 
 function register() {

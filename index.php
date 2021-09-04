@@ -70,28 +70,34 @@ include('includes/templates/header.php');
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-4">
-        <div class="single-banner">
-          <img src="layout/img/banner-1.jpg" alt="" />
-          <div class="inner-text">
-            <h4>Desktops</h4>
+        <a href="shop.php?category=Desktop">
+          <div class="single-banner">
+            <img src="layout/img/banner-1.jpg" alt="" />
+            <div class="inner-text">
+              <h4>Desktops</h4>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
       <div class="col-lg-4">
-        <div class="single-banner">
-          <img src="layout/img/banner-2.jpg" alt="" />
-          <div class="inner-text">
-            <h4>Laptops</h4>
+        <a href="shop.php?category=Laptop">
+          <div class="single-banner">
+            <img src="layout/img/banner-2.jpg" alt="" />
+            <div class="inner-text">
+              <h4>Laptops</h4>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
       <div class="col-lg-4">
-        <div class="single-banner">
-          <img src="layout/img/banner-3.png" alt="" />
-          <div class="inner-text">
-            <h4>Accessories</h4>
+        <a href="shop.php">
+          <div class="single-banner">
+            <img src="layout/img/banner-3.png" alt="" />
+            <div class="inner-text">
+              <h4>Accessories</h4>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>

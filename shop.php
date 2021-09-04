@@ -2,11 +2,14 @@
 $pageTitle = 'Shop';
 include('includes/templates/header.php');
 
+$query = isset($_GET['category']) ? "WHERE categories.name = '$_GET[category]'" : '';
+
 $products = $product->getData(
   "SELECT items.*,
     categories.name AS category_name
   FROM items
-    INNER JOIN categories ON categories.id = items.category_id LIMIT 9;
+    INNER JOIN categories ON categories.id = items.category_id
+  $query LIMIT 9;
   "
 );
 // shuffle($products);

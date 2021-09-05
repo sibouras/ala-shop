@@ -1,7 +1,7 @@
 const profileMenu = document.querySelector('#user-dropdown .menu');
 document.body.addEventListener('click', (e) => {
   if (e.target.closest('.menu') || e.target.localName === 'img') return;
-  if (profileMenu.classList.contains('active')) {
+  if (profileMenu && profileMenu.classList.contains('active')) {
     profileMenu.classList.remove('active');
   }
 });
@@ -155,3 +155,65 @@ function updateProfile() {
       }
     });
 }
+
+const inputGroup = document.querySelector('.advanced-search .input-group');
+const inputBox = inputGroup.querySelector('input');
+const suggBox = inputGroup.querySelector('#search-result');
+const categorySpan = document.querySelector(
+  '.advanced-search .nice-select .current'
+);
+
+document.body.addEventListener('click', (e) => {
+  if (e.target.closest('.input-group input')) return;
+  if (suggBox.classList.contains('active')) {
+    suggBox.classList.remove('active');
+  }
+});
+
+let timeoutId;
+inputBox.onkeyup = (e) => {
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(() => {
+    const term = e.target.value;
+    if (term.length > 1) {
+      const formData = new FormData();
+      formData.append('term', term);
+      formData.append('category', categorySpan.textContent);
+
+      const fetchData = async () => {
+        const response = await fetch('process-data.php', {
+          method: 'POST',
+          body: formData,
+        });
+        if (response.status !== 200) {
+          throw new Error('cannot fetch the data');
+        }
+        const data = await response.json();
+        return data;
+      };
+
+      fetchData()
+        .then((data) => {
+          let listItems = [];
+          if (data.length > 0) {
+            listItems = data.map((item) => {
+              let regex = new RegExp(term, 'gi');
+              const found = item.name.match(regex);
+              const liItem = item.name.replace(regex, `<b>${found}</b>`);
+              return `<li><a href="product.php?item_id=${item.id}">${liItem}</a></li>`;
+            });
+          }
+          suggBox.classList.add('active');
+          showSuggestions(listItems);
+        })
+        .catch((err) => console.log(err.message));
+    } else {
+      suggBox.classList.remove('active');
+    }
+  }, 100);
+};
+
+const showSuggestions = (list) => {
+  listData = list.length ? list.join('') : '<li><a>No Results!</a></li>';
+  suggBox.innerHTML = listData;
+};

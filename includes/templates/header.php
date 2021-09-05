@@ -134,6 +134,7 @@ $cartCount = $cart->countItems();
               <div class="input-group">
                 <input type="text" placeholder="What do you need?" />
                 <button type="button"><i class="ti-search"></i></button>
+                <div id="search-result"> </div>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-DROP DATABASE `shop`;
+DROP DATABASE IF EXISTS `shop`;
 CREATE DATABASE `shop`;
 USE `shop`;
 
@@ -15,7 +15,7 @@ CREATE TABLE `users` (
   `groupID` INT NOT NULL DEFAULT 0 COMMENT 'identify user group',
   `regStatus` INT NOT NULL DEFAULT 0 COMMENT 'user approval',
   `date` DATE NOT NULL,
-  `image` VARCHAR(255) NOT NULL
+  `image` VARCHAR(255) NOT NULL DEFAULT 'default.png'
 );
 
 #

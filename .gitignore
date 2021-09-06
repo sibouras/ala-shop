@@ -1,19 +1,9 @@
-pages.txt
 shop.session.sql
 .vscode
-
-# mdb5 stuff
-admin/layout/src/
 
 # test files
 admin/includes/insert.php
 
-# uploads file
-uploads/
-
 # html-template
 HTML-template/
 layout/source/
-
-# database
-database/alashop.sql

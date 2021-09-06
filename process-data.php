@@ -45,11 +45,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         categories.name AS category_name
       FROM items
         INNER JOIN categories ON categories.id = items.category_id
-      WHERE items.name LIKE ? $query LIMIT 8;
-      "
+      WHERE items.name LIKE ? $query LIMIT 8;"
     );
     $stmt->execute([$term]);
     $result = $stmt->fetchAll();
     echo json_encode($result);
+  }
+
+  if (isset($_POST['minPrice'])) {
+    $query =  !empty($_POST['category']) ? "AND categories.name = '$_POST[category]'" : '';
+    $stmt = $pdo->prepare(
+      "SELECT items.*,
+        categories.name AS category_name
+      FROM items
+        INNER JOIN categories ON categories.id = items.category_id
+      WHERE price BETWEEN $_POST[minPrice] AND $_POST[maxPrice]
+      $query LIMIT 9;"
+    );
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+    include('includes/templates/_product-list.php');
   }
 }

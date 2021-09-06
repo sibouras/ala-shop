@@ -91,9 +91,11 @@ if (!isset($cartIds)) {
               <div class="price-input">
                 <input type="text" id="minamount">
                 <input type="text" id="maxamount">
+                <input type="hidden" id="hidden-min-price" />
+                <input type="hidden" id="hidden-max-price" />
               </div>
             </div>
-            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="33" data-max="199">
+            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="10" data-max="5000">
               <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
               <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
               <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>

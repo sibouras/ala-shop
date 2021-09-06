@@ -254,7 +254,8 @@
     minamount = $('#minamount'),
     maxamount = $('#maxamount'),
     minPrice = rangeSlider.data('min'),
-    maxPrice = rangeSlider.data('max');
+    maxPrice = rangeSlider.data('max'),
+    timeoutSliderId;
   rangeSlider.slider({
     range: true,
     min: minPrice,
@@ -263,10 +264,37 @@
     slide: function (event, ui) {
       minamount.val('$' + ui.values[0]);
       maxamount.val('$' + ui.values[1]);
+      $('#hidden-min-price').val(ui.values[0]);
+      $('#hidden-max-price').val(ui.values[1]);
+      clearTimeout(timeoutSliderId);
+      $('.product-list').html('<div id="loading"></div>');
+      timeoutSliderId = setTimeout(() => {
+        filterPrice();
+      }, 80);
     },
   });
   minamount.val('$' + rangeSlider.slider('values', 0));
   maxamount.val('$' + rangeSlider.slider('values', 1));
+
+  function filterPrice() {
+    const minPrice = $('#hidden-min-price').val();
+    const maxPrice = $('#hidden-max-price').val();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const category = urlParams.get('category');
+    $.ajax({
+      url: 'process-data.php',
+      method: 'POST',
+      data: {
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        category: category,
+      },
+      success: function (data) {
+        $('.product-list').html(data);
+      },
+    });
+  }
 
   3; /*-------------------
 		Radio Btn
